@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\Audition\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Abbott.Tips.Framework\Abbott.Tips.Framework.csproj" />
+  </ItemGroup>
+
+</Project>
