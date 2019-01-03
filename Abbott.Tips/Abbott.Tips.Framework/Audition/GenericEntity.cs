@@ -1,34 +1,42 @@
-﻿using Abbott.Tips.Framework.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Abbott.Tips.Model
+namespace Abbott.Tips.Framework.Audition
 {
     /// <summary>
-    /// 资源接口
-    /// 实现该接口，表示资源只能有创建人进行编辑和删除，或者由指定角色进行操作
-    /// </summary>
-    public interface IResource
-    {
-        string Creator { get; }
-    }
-
-    /// <summary>
-    /// 主键自增实体模型类
+    /// Model 泛型基类
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class IdentityKeyEntity<TKey> : PersistenceGenericEntity<TKey>, IResource
+    public abstract class IdentityKeyEntity<TKey>
     {
         /// <summary>
         /// 获取或设置 实体唯一标识，主键
         /// </summary>
         [Key]
         public TKey Id { get; set; }
+    }
 
-        public string Creator { get => CreatedBy.ToString(); }
+    /// <summary>
+    /// 只包含新增
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
+    public abstract class CreationAuditedEntity<TKey> : IdentityKeyEntity<TKey>
+    {
+        protected CreationAuditedEntity()
+        {
+            CreatedTime = DateTime.Now;
+        }
+
+        /// <summary>
+        /// 获取或设置 创建时间
+        /// </summary>
+        public DateTime CreatedTime { get; set; }
+
+        public int CreatedBy { get; set; }
+
+        #region 重写
 
         /// <summary>
         /// 判断两个实体是否是同一数据记录的实体
@@ -41,7 +49,7 @@ namespace Abbott.Tips.Model
             {
                 return false;
             }
-            IdentityKeyEntity<TKey> entity = obj as IdentityKeyEntity<TKey>;
+            CreationAuditedEntity<TKey> entity = obj as CreationAuditedEntity<TKey>;
             if (entity == null)
             {
                 return false;
@@ -60,36 +68,16 @@ namespace Abbott.Tips.Model
             return Id.GetHashCode() ^ CreatedTime.GetHashCode();
         }
 
-
+        #endregion
 
     }
 
     /// <summary>
-    /// 可持久化到数据库的数据模型基类
+    /// 增删改查全支持
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class PersistenceGenericEntity<TKey> : GenericEntity<TKey>
+    public abstract class AuditedEntity<TKey> : CreationAuditedEntity<TKey>
     {
-        protected PersistenceGenericEntity()
-        {
-            IsDeleted = false;
-            CreatedTime = DateTime.Now;
-        }
-
-        #region 属性
-
-        /// <summary>
-        /// 获取或设置 是否删除，逻辑上的删除，非物理删除
-        /// </summary>
-        public bool IsDeleted { get; set; }
-
-        /// <summary>
-        /// 获取或设置 创建时间
-        /// </summary>
-        public DateTime CreatedTime { get; set; }
-
-        public int CreatedBy { get; set; }
-
         /// <summary>
         /// 获取或设置 更新时间
         /// </summary>
@@ -103,12 +91,22 @@ namespace Abbott.Tips.Model
         [ConcurrencyCheck]
         [Timestamp]
         public byte[] Timestamp { get; set; }
+    }
 
-        #endregion
+    /// <summary>
+    /// 软删除标记接口
+    /// </summary>
+    public interface ISoftDelete
+    {
+        bool IsDeleted { get; set; }
+    }
 
-        #region 方法
-
-        #endregion
-
+    /// <summary>
+    /// 资源接口
+    /// 实现该接口，表示资源只能有创建人进行编辑和删除，或者由指定角色进行操作
+    /// </summary>
+    public interface IResource
+    {
+        string Creator { get; }
     }
 }

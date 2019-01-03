@@ -13,16 +13,13 @@ namespace Abbott.Tips.Core.EntityTypeConfigurations
         {
             base.Configure(builder);
 
-            builder.HasOne(u => u.CreatedUser).WithMany().HasForeignKey(fk => fk.CreatedBy);
-            builder.HasOne(u => u.UpdatedUser).WithMany().HasForeignKey(fk => fk.UpdatedBy);
-
             builder.HasOne(ur => ur.Menu)
                .WithMany(ur => ur.RoleMenus)
-               .HasForeignKey(fk => fk.MenuID);
+               .HasForeignKey(fk => fk.MenuId);
 
             builder.HasOne(ur => ur.Role)
                 .WithMany(ur => ur.RoleMenus)
-                .HasForeignKey(fk => fk.RoleID);
+                .HasForeignKey(fk => fk.RoleId);
 
         }
     }

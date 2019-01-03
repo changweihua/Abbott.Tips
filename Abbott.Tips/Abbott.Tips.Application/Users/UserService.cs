@@ -36,7 +36,7 @@ namespace Abbott.Tips.Application.Users
 
             Func<IQueryable<UserModel>, IOrderedQueryable<UserModel>> orderBy = (user) => user.OrderBy(_ => _.Id);
             Expression<Func<UserModel, bool>> predicate = user => !user.IsDeleted && user.LoginName == loginName;
-            Func<IQueryable<UserModel>, IIncludableQueryable<UserModel, object>> include = (user) => user.Include(u => u.UserRoles).ThenInclude(ur => ur.Role).ThenInclude(r => r.RoleMenus).ThenInclude(rm => rm.Menu).Include(u => u.CreatedUser);
+            Func<IQueryable<UserModel>, IIncludableQueryable<UserModel, object>> include = (user) => user.Include(u => u.UserRoles).ThenInclude(ur => ur.Role).ThenInclude(r => r.RoleMenus).ThenInclude(rm => rm.Menu);
 
             //var cfgs = unitOfWork.SqlQuery<ConfigurationListModel>("select * from T_Configuration");
 
@@ -73,13 +73,13 @@ namespace Abbott.Tips.Application.Users
                 UserName = currentUser.UserName,
                 UserRoles = currentUser.UserRoles.Select(ur => new UserRolePlainInfoModel
                 {
-                    RoleID = ur.RoleID,
-                    UserID = ur.UserID,
+                    RoleID = ur.RoleId,
+                    UserID = ur.UserId,
                     RoleName = ur.Role.RoleName,
                     UserRoleMenus = ur.Role.RoleMenus.Select(rm => new UserRoleMenuPlainInfoModel
                     {
-                        MenuID = rm.MenuID,
-                        RoleID = rm.RoleID,
+                        MenuID = rm.MenuId,
+                        RoleID = rm.RoleId,
                         MenuName = rm.Menu.MenuName
                     }).ToList()
                 }).ToList()

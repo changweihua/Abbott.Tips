@@ -1,5 +1,6 @@
 ﻿using Abbott.Tips.EntityFrameworkCore.EntityTypeConfigurations;
 using Abbott.Tips.Model.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -13,17 +14,21 @@ namespace Abbott.Tips.Core.EntityTypeConfigurations
         {
             base.Configure(builder);
 
-            builder.HasOne(u => u.CreatedUser).WithMany().HasForeignKey(fk => fk.CreatedBy);
-            builder.HasOne(u => u.UpdatedUser).WithMany().HasForeignKey(fk => fk.UpdatedBy);
-
             builder.HasOne(ur => ur.User)
                .WithMany(ur => ur.UserRoles)
-               .HasForeignKey(fk => fk.UserID);
+               .HasForeignKey(fk => fk.UserId);
 
             builder.HasOne(ur => ur.Role)
                 .WithMany(ur => ur.UserRoles)
-                .HasForeignKey(fk => fk.RoleID);
+                .HasForeignKey(fk => fk.RoleId);
 
+            builder.HasIndex(p => p.RoleId)
+                .HasName("RoleId")
+                .IsUnique(false);
+
+            builder.HasIndex(p => p.UserId)
+                .HasName("UserId")
+                .IsUnique(false);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Abbott.Tips.Model.Entities
     /// 区域模型
     /// </summary>
     [Table("T_Region")]
-    public class RegionModel : IdentityKeyEntity<int>
+    public class RegionModel : TipsEntity
     {
         public string RegionName { get; set; }
 
@@ -19,15 +19,11 @@ namespace Abbott.Tips.Model.Entities
 
         #region 导航属性
 
-        public int ParentID { get; set; }
+        public int? ParentId { get; set; }
 
-        public RegionModel ParentRegion { get; set; }
+        public virtual RegionModel ParentRegion { get; set; }
 
-        public IEnumerable<RegionModel> SubRegions { get; set; }
-
-        public UserModel CreatedUser { get; set; }
-
-        public UserModel UpdatedUser { get; set; }
+        public virtual ICollection<RegionModel> SubRegions { get; set; }
 
         #endregion
     }

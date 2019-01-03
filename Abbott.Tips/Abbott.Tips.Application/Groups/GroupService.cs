@@ -34,7 +34,7 @@ namespace Abbott.Tips.Application.Groups
 
         public GroupModel GetSingleGroup(int id)
         {
-            return unitOfWork.GetRepository<GroupModel>().GetFirstOrDefault(predicate: g => g.Id == id, include: g => g.Include(r => r.ParentGroup).Include(r => r.GroupRoles));
+            return unitOfWork.GetRepository<GroupModel>().GetFirstOrDefault(predicate: g => g.Id == id, include: g => g.Include(r => r.ParentGroup));
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Abbott.Tips.Application.Groups
             {
                 estGroup.GroupName = group.GroupName;
                 estGroup.GroupDescription = group.GroupDescription;
-                estGroup.ParentID = group.ParentID;
+                estGroup.ParentId = group.ParentId;
                 estGroup.IsInherited = group.IsInherited;
 
                 unitOfWork.GetRepository<GroupModel>().Update(estGroup);
@@ -114,45 +114,5 @@ namespace Abbott.Tips.Application.Groups
 
             return 0;
         }
-
-        public int AssignRole(int groupId, List<int> roleIds)
-        {
-            var group = unitOfWork.GetRepository<GroupModel>().GetFirstOrDefault(predicate: (r => !r.IsDeleted && r.Id == groupId), include: r => r.Include(ir => ir.GroupRoles));
-
-            if (group != null)
-            {
-                
-                var existedRoles = group.GroupRoles.Where(_ => !_.IsDeleted).ToList();
-                var existedRoleIds = existedRoles.Select(_ => _.RoleID).ToList();
-
-                var toDeleteRoles = existedRoles.Where(em => !roleIds.Contains(em.RoleID)).Select(em =>
-                {
-                    em.IsDeleted = true;
-                    em.UpdatedBy = 2;
-                    return em;
-                }).ToList();
-
-                var toAddRoles = roleIds.Except(existedRoleIds).Select(id => new GroupRoleModel
-                {
-                    CreatedBy = 1,
-                    RoleID = id,
-                    GroupID = group.Id
-                }).ToList();
-
-                if (toDeleteRoles.Count > 0)
-                {
-                    unitOfWork.GetRepository<GroupRoleModel>().Update(toDeleteRoles);
-                }
-                if (toAddRoles.Count > 0)
-                {
-                    unitOfWork.GetRepository<GroupRoleModel>().Insert(toAddRoles);
-                }
-
-                return unitOfWork.SaveChanges();
-            }
-
-            return 0;
-        }
-
     }
 }

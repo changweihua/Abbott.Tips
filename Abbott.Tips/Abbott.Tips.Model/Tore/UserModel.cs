@@ -7,7 +7,7 @@ using System.Text;
 namespace Abbott.Tips.Model.Entities
 {
     [Table("T_User")]
-    public class UserModel : IdentityKeyEntity<int>
+    public class UserModel : TipsEntity
     {
         public string LoginName { get; set; }
 
@@ -17,13 +17,9 @@ namespace Abbott.Tips.Model.Entities
 
         #region 导航属性
 
-        public IEnumerable<UserRoleModel> UserRoles { get; set; }
+        public virtual ICollection<UserRoleModel> UserRoles { get; set; }
 
-        public IEnumerable<UserGroupModel> UserGroups { get; set; }
-
-        public UserModel CreatedUser { get; set; }
-
-        public UserModel UpdatedUser { get; set; }
+        public virtual ICollection<UserGroupModel> UserGroups { get; set; }
 
         #endregion
 

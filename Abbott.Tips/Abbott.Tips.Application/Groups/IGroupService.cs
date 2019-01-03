@@ -51,6 +51,5 @@ namespace Abbott.Tips.Application.Groups
         /// <returns></returns>
         int DeleteGroup(int groupId);
 
-        int AssignRole(int groupId, List<int> roleIds);
     }
 }

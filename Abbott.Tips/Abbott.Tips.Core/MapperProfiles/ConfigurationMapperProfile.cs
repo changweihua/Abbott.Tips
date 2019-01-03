@@ -12,8 +12,6 @@ namespace Abbott.Tips.Core.Mappers
         public ConfigurationMapperProfile()
         {
             CreateMap<ConfigurationModel, ConfigurationListModel>()
-                .ForMember(dest => dest.CreatedUser, options => options.MapFrom(src => src.CreatedUser.UserName))
-                .ForMember(dest => dest.UpdatedUser, options => options.MapFrom(src => src.UpdatedUser == null ? string.Empty : src.UpdatedUser.UserName))
                 .ForMember(dest => dest.CreatedDate, options => options.MapFrom(src => src.CreatedTime))
                 .ForMember(dest => dest.UpdatedDate, options => options.MapFrom(src => src.UpdatedTime))
                 .ForMember(dest => dest.ConfigurationName, options => options.MapFrom(src => src.ConfigName));

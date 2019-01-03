@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Abbott.Tips.Framework.Audition;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Text;
 namespace Abbott.Tips.Model.Entities
 {
     [Table("T_Menu")]
-    public class MenuModel : IdentityKeyEntity<int>
+    public class MenuModel : TipsEntity
     {
         public string MenuName { get; set; }
 
@@ -20,17 +21,13 @@ namespace Abbott.Tips.Model.Entities
 
         #region 导航属性
 
-        public int? ParentID { get; set; }
+        public int? ParentId { get; set; }
 
-        public MenuModel ParentMenu { get; set; }
+        public virtual MenuModel ParentMenu { get; set; }
 
-        public IEnumerable<MenuModel> SubMenus { get; set; }
+        public virtual ICollection<MenuModel> SubMenus { get; set; }
 
-        public IEnumerable<RoleMenuModel> RoleMenus { get; set; }
-
-        public UserModel CreatedUser { get; set; }
-
-        public UserModel UpdatedUser { get; set; }
+        public virtual ICollection<RoleMenuModel> RoleMenus { get; set; }
 
         #endregion
     }

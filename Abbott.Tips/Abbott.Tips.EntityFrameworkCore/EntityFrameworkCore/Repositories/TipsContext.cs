@@ -69,23 +69,13 @@ namespace Abbott.Tips.EntityFrameworkCore
 
         public DbSet<GroupModel> Groups { get; set; }
 
-        public DbSet<GroupRoleModel> GroupRoles { get; set; }
-
         public DbSet<UserGroupModel> UserGroups { get; set; }
 
         public DbSet<RoleMenuModel> RoleMenus { get; set; }
 
         public DbSet<UserRoleModel> UserRoles { get; set; }
 
-        public DbSet<ShareCategoryModel> ShareCategories { get; set; }
-
         public DbSet<OperationLogModel> OperationLogs { get; set; }
-
-        public DbSet<QuestionModel> Questions { get; set; }
-
-        public DbSet<QuestionCategoryModel> QuestionCategories { get; set; }
-
-        public DbSet<CourseModel> Courses { get; set; }
 
         public DbSet<RegionModel> Regions { get; set; }
 

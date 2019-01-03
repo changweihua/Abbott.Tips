@@ -13,14 +13,6 @@ namespace Abbott.Tips.Core.EntityTypeConfigurations
         public override void Configure(EntityTypeBuilder<UserModel> builder)
         {
             base.Configure(builder);
-
-            builder.HasOne(u => u.CreatedUser).WithMany().HasForeignKey(fk => fk.CreatedBy);
-            builder.HasOne(u => u.UpdatedUser).WithMany().HasForeignKey(fk => fk.UpdatedBy);
-
-            //builder.HasOne(u => u.CreatedUser).WithOne().HasForeignKey<UserModel>(fk => fk.CreatedBy);
-            //builder.HasOne(u => u.UpdatedUser).WithOne().HasForeignKey<UserModel>(fk => fk.UpdatedBy);
-
-            //builder.HasMany(u => u.UserRoles).WithOne(o => o.User);
         }
     }
 }

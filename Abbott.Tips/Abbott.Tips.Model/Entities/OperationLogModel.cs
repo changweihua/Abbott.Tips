@@ -6,7 +6,7 @@ using System.Text;
 namespace Abbott.Tips.Model.Entities
 {
     [Table("T_OperationLog")]
-    public class OperationLogModel : IdentityKeyEntity<int>
+    public class OperationLogModel : TipsEntity
     {
         public int OperationType { get; set; }
 
@@ -21,10 +21,6 @@ namespace Abbott.Tips.Model.Entities
         public string UserName { get; set; }
 
         #region 导航属性
-
-        public UserModel CreatedUser { get; set; }
-
-        public UserModel UpdatedUser { get; set; }
 
         #endregion
 

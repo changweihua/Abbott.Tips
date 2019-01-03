@@ -12,8 +12,6 @@ namespace Abbott.Tips.Core.Mappers
         public MenuMapperProfile()
         {
             CreateMap<MenuModel, MenuListModel>()
-                .ForMember(dest => dest.CreatedUser, options => options.MapFrom(src => src.CreatedUser.UserName))
-                .ForMember(dest => dest.UpdatedUser, options => options.MapFrom(src => src.UpdatedUser == null ? string.Empty : src.UpdatedUser.UserName))
                 .ForMember(dest => dest.MenuAction, options => options.MapFrom(src => src.MenuAction))
                 .ForMember(dest => dest.MenuController, options => options.MapFrom(src => src.MenuController))
                 .ForMember(dest => dest.MenuPermission, options => options.MapFrom(src => src.MenuPermission))

@@ -12,9 +12,6 @@ namespace Abbott.Tips.Core.EntityTypeConfigurations
         public override void Configure(EntityTypeBuilder<OperationLogModel> builder)
         {
             base.Configure(builder);
-
-            builder.HasOne(u => u.CreatedUser).WithMany().HasForeignKey(fk => fk.CreatedBy);
-            builder.HasOne(u => u.UpdatedUser).WithMany().HasForeignKey(fk => fk.UpdatedBy);
         }
     }
 }

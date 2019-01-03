@@ -1,4 +1,5 @@
 ﻿using Abbott.Tips.AspnetCore.Authority;
+using Abbott.Tips.Framework.Audition;
 using Abbott.Tips.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;

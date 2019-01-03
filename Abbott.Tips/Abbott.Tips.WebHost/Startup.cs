@@ -107,7 +107,7 @@ namespace Abbott.Tips.WebHost
                 // 为 Swagger JSON and UI设置xml文档注释路径
                 // AppContext.BaseDir
                 var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
-                var xmlPath = Path.Combine(basePath, "SwaggerDemo.xml");
+                var xmlPath = Path.Combine(basePath, "Abbott.Tips.WebHost.xml");
                 c.IncludeXmlComments(xmlPath);
             });
 
@@ -265,8 +265,10 @@ namespace Abbott.Tips.WebHost
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                c.RoutePrefix = string.Empty;
+                //c.RoutePrefix = string.Empty;
             });
+
+            EntityFrameworkCore.Seed.SeedData.Initialize(app.ApplicationServices); //初始化数据
         }
     }
 }

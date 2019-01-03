@@ -66,9 +66,9 @@ namespace Abbott.Tips.Application.Roles
             var role = new RoleModel
             {
                 RoleName = roleName,
-                CreatedBy=1,
-                 ParentID=parentId,
-                 IsInherited=isInherited
+                CreatedBy = 1,
+                ParentId = parentId,
+                IsInherited = isInherited
             };
 
             unitOfWork.GetRepository<RoleModel>().Insert(role);
@@ -76,8 +76,8 @@ namespace Abbott.Tips.Application.Roles
             unitOfWork.GetRepository<RoleMenuModel>().Insert(menuIds.Select(id => new RoleMenuModel
             {
                 CreatedBy = 1,
-                MenuID = id,
-                RoleID = role.Id
+                MenuId = id,
+                RoleId = role.Id
             }));
 
             unitOfWork.SaveChanges();
@@ -99,13 +99,13 @@ namespace Abbott.Tips.Application.Roles
             if (role != null)
             {
                 role.RoleName = roleName;
-                role.ParentID = parentId;
+                role.ParentId = parentId;
                 role.IsInherited = isInherited;
 
                 var existedMenus = role.RoleMenus.Where(_ => !_.IsDeleted).ToList();
-                var existedMenuIds = existedMenus.Select(_ => _.MenuID).ToList();
+                var existedMenuIds = existedMenus.Select(_ => _.MenuId).ToList();
 
-                var toDeleteMenus = existedMenus.Where(em => !menuIds.Contains(em.MenuID)).Select(em =>
+                var toDeleteMenus = existedMenus.Where(em => !menuIds.Contains(em.MenuId)).Select(em =>
                 {
                     em.IsDeleted = true;
                     em.UpdatedBy = 2;
@@ -115,8 +115,8 @@ namespace Abbott.Tips.Application.Roles
                 var toAddMenus = menuIds.Except(existedMenuIds).Select(id => new RoleMenuModel
                 {
                     CreatedBy = 1,
-                    MenuID = id,
-                    RoleID = role.Id
+                    MenuId = id,
+                    RoleId = role.Id
                 }).ToList();
 
                 if (toDeleteMenus.Count > 0)

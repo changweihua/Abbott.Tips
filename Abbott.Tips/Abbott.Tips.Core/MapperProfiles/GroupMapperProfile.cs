@@ -12,9 +12,7 @@ namespace Abbott.Tips.Core.Mappers
         public GroupMapperProfile()
         {
             CreateMap<GroupModel, GroupListModel>()
-                .ForMember(dest => dest.CreatedUser, options => options.MapFrom(src => src.CreatedUser.UserName))
-                .ForMember(dest => dest.UpdatedUser, options => options.MapFrom(src => src.UpdatedUser == null ? string.Empty : src.UpdatedUser.UserName))
-                .ForMember(dest => dest.ParentID, options => options.MapFrom(src => src.ParentID))
+                .ForMember(dest => dest.ParentID, options => options.MapFrom(src => src.ParentId))
                 .ForMember(dest => dest.GroupId, options => options.MapFrom(src => src.Id))
                 .ForMember(dest => dest.ParentName, options => options.MapFrom(src => src.ParentGroup == null ? "" : src.ParentGroup.GroupName))
                 .ForMember(dest => dest.CreatedDate, options => options.MapFrom(src => src.CreatedTime))

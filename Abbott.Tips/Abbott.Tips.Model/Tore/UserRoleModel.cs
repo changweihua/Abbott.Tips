@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Abbott.Tips.Model.Entities
 {
-    [Table("T_RoleMenu")]
-    public class RoleMenuModel : TipsEntity
+    [Table("T_UserRole")]
+    public class UserRoleModel : TipsEntity
     {
         #region 导航属性
 
-        public int MenuId { get; set; }
+        public int UserId { get; set; }
 
-        public virtual MenuModel Menu { get; set; }
+        public virtual UserModel User { get; set; }
 
         public int RoleId { get; set; }
 

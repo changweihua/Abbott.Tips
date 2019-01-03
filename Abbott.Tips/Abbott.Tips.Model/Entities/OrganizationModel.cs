@@ -9,7 +9,7 @@ namespace Abbott.Tips.Model.Entities
     /// 组织架构模型
     /// </summary>
     [Table("T_Organization")]
-    public class OrganizationModel : IdentityKeyEntity<int>
+    public class OrganizationModel : TipsEntity
     {
         public string OrganizationName { get; set; }
 
@@ -19,15 +19,11 @@ namespace Abbott.Tips.Model.Entities
 
         #region 导航属性
 
-        public int ParentID { get; set; }
+        public int? ParentId { get; set; }
 
-        public OrganizationModel ParentOrganization { get; set; }
+        public virtual OrganizationModel ParentOrganization { get; set; }
 
-        public IEnumerable<OrganizationModel> SubOrganizations { get; set; }
-
-        public UserModel CreatedUser { get; set; }
-
-        public UserModel UpdatedUser { get; set; }
+        public virtual ICollection<OrganizationModel> SubOrganizations { get; set; }
 
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using Abbott.Tips.EntityFrameworkCore.EntityTypeConfigurations;
+﻿using Abbott.Tips.EntityFrameworkCore.Configurations;
+using Abbott.Tips.EntityFrameworkCore.EntityTypeConfigurations;
 using Abbott.Tips.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,16 +15,24 @@ namespace Abbott.Tips.Core.EntityTypeConfigurations
         {
             base.Configure(builder);
 
-            builder.HasOne(u => u.CreatedUser).WithMany().HasForeignKey(fk => fk.CreatedBy);
-            builder.HasOne(u => u.UpdatedUser).WithMany().HasForeignKey(fk => fk.UpdatedBy);
-
             builder.HasOne(ur => ur.User)
                .WithMany(ur => ur.UserGroups)
-               .HasForeignKey(fk => fk.UserID);
+               .HasForeignKey(fk => fk.UserId);
 
             builder.HasOne(ur => ur.Group)
                 .WithMany(ur => ur.UserGroups)
-                .HasForeignKey(fk => fk.GroupID);
+                .HasForeignKey(fk => fk.GroupId);
+
+            //builder.RemoveForeignKey("CreatedUser");
+            //builder.RemoveForeignKey("UpdatedUser");
+
+            builder.HasIndex(p => p.GroupId)
+                .HasName("GroupId")
+                .IsUnique(false);
+
+            builder.HasIndex(p => p.UserId)
+                .HasName("UserId")
+                .IsUnique(false);
 
         }
     }

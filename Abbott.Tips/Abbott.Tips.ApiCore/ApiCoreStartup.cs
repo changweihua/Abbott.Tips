@@ -5,6 +5,7 @@ using Abbott.Tips.AspnetCore.BackgroundServices;
 using Abbott.Tips.AspnetCore.Jils;
 using Abbott.Tips.AspnetCore.Middlewares;
 using Abbott.Tips.EntityFrameworkCore;
+using Abbott.Tips.EntityFrameworkCore.Configurations;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -33,8 +34,11 @@ namespace Abbott.Tips.ApiCore
         {
             #region EF 注入
 
-            services.AddDbContext<TipsContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlServer")))
-                    .AddUnitOfWork<TipsContext>();
+            services.AddDbContext<TipsContext>(opt =>
+                {
+                    opt.UseSqlServer(Configuration.GetConnectionString("SqlServer"));
+                    //opt.UseRemoveForeignKeyService();
+                }).AddUnitOfWork<TipsContext>();
 
             // 替换控制器所有者
             // 使用Autofac进行注入
