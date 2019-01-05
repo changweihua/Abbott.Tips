@@ -42,11 +42,11 @@ namespace Abbott.Tips.WebHost
             // 增加Cookie中间件配置
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = "HGDX-Dashboard-CookieAuthenticationScheme";
-                options.DefaultChallengeScheme = "HGDX-Dashboard-CookieAuthenticationScheme";
-                options.DefaultSignInScheme = "HGDX-Dashboard-CookieAuthenticationScheme";
+                options.DefaultAuthenticateScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
+                options.DefaultChallengeScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
+                options.DefaultSignInScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
             })
-            .AddCookie("HGDX-Dashboard-CookieAuthenticationScheme", options =>
+            .AddCookie("TIPS-Dashboard-CookieAuthenticationScheme", options =>
             {
                 options.AccessDeniedPath = @"/AccessDenied";
                 options.LoginPath = "/Account/Login";
@@ -79,6 +79,12 @@ namespace Abbott.Tips.WebHost
             #region 目录浏览功能
 
             services.AddDirectoryBrowser();
+
+            #endregion
+
+            #region CROS
+
+            services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
 
             #endregion
 
@@ -252,12 +258,7 @@ namespace Abbott.Tips.WebHost
             //    )
             // });
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseCors("cors");
 
             //启用中间件服务生成Swagger作为JSON终结点
             app.UseSwagger();
@@ -266,6 +267,13 @@ namespace Abbott.Tips.WebHost
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 //c.RoutePrefix = string.Empty;
+            });
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
 
             EntityFrameworkCore.Seed.SeedData.Initialize(app.ApplicationServices); //初始化数据

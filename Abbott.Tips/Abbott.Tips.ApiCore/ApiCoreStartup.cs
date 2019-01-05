@@ -1,4 +1,5 @@
-﻿using Abbott.Tips.ApiCore.Mappers;
+﻿using Abbott.Tips.ApiCore.Jwts;
+using Abbott.Tips.ApiCore.Mappers;
 using Abbott.Tips.AspnetCore;
 using Abbott.Tips.AspnetCore.Autofacs;
 using Abbott.Tips.AspnetCore.BackgroundServices;
@@ -67,6 +68,26 @@ namespace Abbott.Tips.ApiCore
 
             #endregion
 
+            #region 开启JWT服务
+
+            // 使用对称加密算法
+            services.AddTipsJwt(new MD5JwtOption("dd%88*377f6d&f£$$£$FdddFF33fssDG^!3")
+            {
+                Audience = "test",
+                Issuer = "test",
+                EnableCookie = true
+            });
+
+            // 或者你可以使用非对称加密算法
+            //services.AddTipsJwt(new RSAJwtOption(PlatformServices.Default.Application.ApplicationBasePath)
+            //{
+            //    Audience = "test",
+            //    Issuer = "test",
+            //    EnableCookie = true
+            //});
+
+            #endregion
+
             services.AddMemoryCache();
 
             services.AddMvc(options =>
@@ -114,6 +135,13 @@ namespace Abbott.Tips.ApiCore
             AutoMapperConfig.RegisterMappings();
 
             #endregion
+
+            #region 添加JWT认证
+
+            app.UseAuthentication();
+
+            #endregion
+
         }
 
     }

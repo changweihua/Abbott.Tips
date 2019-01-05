@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Abbott.Tips.ApiCore.Jwts.Exts;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -7,20 +6,52 @@ using System.Text;
 
 namespace Abbott.Tips.ApiCore.Jwts
 {
-    public abstract class TipsJwtOption
+    public class RSAJwtOption : BasicJwtOption
     {
-        public string Audience { get; set; }
-        public string Issuer { get; set; }
-        public bool EnableCookie { get; set; }
-        /// <summary>
-        /// 自定义 Cookie 选项，可空
-        /// </summary>
-        public Action<CookieAuthenticationOptions> CookieOptions { get; set; }
-        /// <summary>
-        /// 自定义 jwt 选项，可空 
-        /// </summary>
-        public Action<JwtBearerOptions> JwtOptions { get; set; }
-        public abstract SecurityKey GenerateKey();
-        public abstract SigningCredentials GenerateCredentials();
+        public RSAJwtOption(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentException("Path can not be null", nameof(path));
+            }
+
+            Path = path;
+        }
+
+        public string Path { get; set; }
+        public override SecurityKey GenerateKey()
+        {
+            if (RSAUtil.TryGetKeyParameters(Path, true, out var rsaParams) == false)
+            {
+                rsaParams = RSAUtil.GenerateAndSaveKey(Path);
+            }
+
+            return new RsaSecurityKey(rsaParams);
+        }
+
+        public override SigningCredentials GenerateCredentials()
+        {
+            return new SigningCredentials(GenerateKey(), SecurityAlgorithms.RsaSha256);
+        }
+    }
+
+    public class MD5JwtOption : BasicJwtOption
+    {
+        public MD5JwtOption(string secret)
+        {
+            Secret = secret ?? throw new ArgumentNullException(nameof(secret));
+            Secret = Secret.GetMd5();
+        }
+
+        public string Secret { get; set; }
+        public override SecurityKey GenerateKey()
+        {
+            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Secret));
+        }
+
+        public override SigningCredentials GenerateCredentials()
+        {
+            return new SigningCredentials(GenerateKey(), SecurityAlgorithms.HmacSha256);
+        }
     }
 }
