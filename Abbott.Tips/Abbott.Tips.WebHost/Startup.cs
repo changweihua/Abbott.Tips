@@ -42,19 +42,19 @@ namespace Abbott.Tips.WebHost
             });
 
             // 增加Cookie中间件配置
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
-                options.DefaultChallengeScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
-                options.DefaultSignInScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
-            })
-            .AddCookie("TIPS-Dashboard-CookieAuthenticationScheme", options =>
-            {
-                options.AccessDeniedPath = @"/AccessDenied";
-                options.LoginPath = "/Account/Login";
-                options.SlidingExpiration = true;
-                options.Cookie.HttpOnly = true;
-            });
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
+            //    options.DefaultChallengeScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
+            //    options.DefaultSignInScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
+            //})
+            //.AddCookie("TIPS-Dashboard-CookieAuthenticationScheme", options =>
+            //{
+            //    options.AccessDeniedPath = @"/AccessDenied";
+            //    options.LoginPath = "/Account/Login";
+            //    options.SlidingExpiration = true;
+            //    options.Cookie.HttpOnly = true;
+            //});
 
             #endregion
 

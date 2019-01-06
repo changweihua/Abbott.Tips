@@ -32,7 +32,7 @@ namespace Abbott.Tips.ApiCore.Controllers
                 var token = JwtTokenGenerator.GenerateToken(account.UserName, claims, DateTime.Now.AddDays(1));
                 await HttpContext.SignInAsync(account.UserName, claims, DateTime.Now.AddDays(1));
 
-                return Ok(new { token = token });
+                return Ok(new { Code = 0, Token = token });
             }
 
             return BadRequest();

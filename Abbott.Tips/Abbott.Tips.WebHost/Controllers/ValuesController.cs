@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Abbott.Tips.ApiCore.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Abbott.Tips.WebHost.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ValuesController : ControllerBase
+    public class ValuesController : TipsApiController
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(new { Code = 0, Items = new string[] { "value1", "value2" } });
         }
 
         // GET api/values/5
