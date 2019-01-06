@@ -42,19 +42,19 @@ namespace Abbott.Tips.WebHost
             });
 
             // 增加Cookie中间件配置
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
-            //    options.DefaultChallengeScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
-            //    options.DefaultSignInScheme = "TIPS-Dashboard-CookieAuthenticationScheme";
-            //})
-            //.AddCookie("TIPS-Dashboard-CookieAuthenticationScheme", options =>
-            //{
-            //    options.AccessDeniedPath = @"/AccessDenied";
-            //    options.LoginPath = "/Account/Login";
-            //    options.SlidingExpiration = true;
-            //    options.Cookie.HttpOnly = true;
-            //});
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "TIPS-CookieAuthenticationScheme";
+                options.DefaultChallengeScheme = "TIPS-CookieAuthenticationScheme";
+                options.DefaultSignInScheme = "TIPS-CookieAuthenticationScheme";
+            })
+            .AddCookie("TIPS-CookieAuthenticationScheme", options =>
+            {
+                options.AccessDeniedPath = @"/AccessDenied";
+                options.LoginPath = "/Account/Login";
+                options.SlidingExpiration = true;
+                options.Cookie.HttpOnly = true;
+            });
 
             #endregion
 
@@ -92,7 +92,7 @@ namespace Abbott.Tips.WebHost
             //services.Configure<CorsOptions>(options => options.AddPolicy(
             //    "AllowSameDomain",
             //    builder => builder.WithOrigins("*.cmono.net")));
-            services.AddCors(option => option.AddPolicy("Tips", policy => policy.WithOrigins("http://localhost:8088").AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
+            services.AddCors(option => option.AddPolicy("Tips", policy => policy.WithOrigins("http://localhost:8090").AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
 
             //配置跨域处理
             //services.AddCors(options =>
@@ -114,19 +114,19 @@ namespace Abbott.Tips.WebHost
                 c.SwaggerDoc("v1", new Info
                 {
                     Version = "v1",
-                    Title = "yilezhu's API",
+                    Title = "TIPS API",
                     Description = "A simple example ASP.NET Core Web API",
                     TermsOfService = "None",
                     Contact = new Contact
                     {
-                        Name = "依乐祝",
+                        Name = "常伟华 Lance.Chang",
                         Email = string.Empty,
-                        Url = "http://www.cnblogs.com/yilezhu/"
+                        Url = "http://www.cmono.net"
                     },
                     License = new License
                     {
-                        Name = "许可证名字",
-                        Url = "http://www.cnblogs.com/yilezhu/"
+                        Name = "知识共享署名-相同方式共享 4.0 国际许可协议",
+                        Url = "https://creativecommons.org/licenses/by-sa/4.0/"
                     }
                 });
 
