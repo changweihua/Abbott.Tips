@@ -18,19 +18,19 @@ namespace Abbott.Tips.ApiCore.Controllers
         /// </summary>
         /// <param name="user"></param>
         [HttpPost]
-        [Consumes("application/x-www-form-urlencoded")]
+        [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> Post([FromForm]string user)
+        public async Task<IActionResult> Post([FromBody]AccountModel account)
         {
-            if (!string.IsNullOrEmpty(user))
+            if (account != null && !string.IsNullOrEmpty(account.UserName))
             {
                 // 假的用户信息
                 var claims = new[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, user, ClaimValueTypes.String)
+                    new Claim(ClaimTypes.NameIdentifier, account.UserName, ClaimValueTypes.String)
                 };
-                var token = JwtTokenGenerator.GenerateToken(user, claims, DateTime.Now.AddDays(1));
-                await HttpContext.SignInAsync(user, claims, DateTime.Now.AddDays(1));
+                var token = JwtTokenGenerator.GenerateToken(account.UserName, claims, DateTime.Now.AddDays(1));
+                await HttpContext.SignInAsync(account.UserName, claims, DateTime.Now.AddDays(1));
 
                 return Ok(new { token = token });
             }
@@ -38,4 +38,11 @@ namespace Abbott.Tips.ApiCore.Controllers
             return BadRequest();
         }
     }
+
+    public class AccountModel
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+
 }

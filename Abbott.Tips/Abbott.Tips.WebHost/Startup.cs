@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Abbott.Tips.ApiCore;
+using Abbott.Tips.ApiCore.Corss;
 using Herbalife_HGDX.MVC.Authority;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -84,7 +86,25 @@ namespace Abbott.Tips.WebHost
 
             #region CROS
 
-            services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
+            //services.AddCors(option => option.AddPolicy("Tips", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
+
+            //services.Add(ServiceDescriptor.Transient<ICorsService, WildcardCorsService>());
+            //services.Configure<CorsOptions>(options => options.AddPolicy(
+            //    "AllowSameDomain",
+            //    builder => builder.WithOrigins("*.cmono.net")));
+            services.AddCors(option => option.AddPolicy("Tips", policy => policy.WithOrigins("http://localhost:8088").AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
+
+            //配置跨域处理
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("any", builder =>
+            //    {
+            //        builder.AllowAnyOrigin() //允许任何来源的主机访问
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader()
+            //        .AllowCredentials();//指定处理cookie
+            //    });
+            //});
 
             #endregion
 
@@ -258,7 +278,7 @@ namespace Abbott.Tips.WebHost
             //    )
             // });
 
-            app.UseCors("cors");
+            app.UseCors("Tips");
 
             //启用中间件服务生成Swagger作为JSON终结点
             app.UseSwagger();
