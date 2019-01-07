@@ -4,5 +4,11 @@
         <name>Abbott.Tips.WebHost</name>
     </assembly>
     <members>
+        <member name="M:Abbott.Tips.WebHost.Controllers.OAuthController.Post(Abbott.Tips.ApiCore.Controllers.AccountModel)">
+            <summary>
+            返回新的 token 并设置 Cookie
+            </summary>
+            <param name="user"></param>
+        </member>
     </members>
 </doc>

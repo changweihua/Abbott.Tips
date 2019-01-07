@@ -20,7 +20,7 @@ namespace Abbott.Tips.ApiCore.Controllers
         [HttpPost]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> Post([FromBody]AccountModel account)
+        public virtual async Task<IActionResult> Post([FromBody]AccountModel account)
         {
             if (account != null && !string.IsNullOrEmpty(account.UserName))
             {

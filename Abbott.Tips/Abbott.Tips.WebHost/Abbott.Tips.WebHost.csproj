@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Abbott.Tips.ApiCore\Abbott.Tips.ApiCore.csproj" />
+    <ProjectReference Include="..\Abbott.Tips.Application\Abbott.Tips.Application.csproj" />
   </ItemGroup>
 
 </Project>

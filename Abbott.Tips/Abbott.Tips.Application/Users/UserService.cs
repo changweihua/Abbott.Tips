@@ -36,11 +36,11 @@ namespace Abbott.Tips.Application.Users
 
             Func<IQueryable<UserModel>, IOrderedQueryable<UserModel>> orderBy = (user) => user.OrderBy(_ => _.Id);
             Expression<Func<UserModel, bool>> predicate = user => !user.IsDeleted && user.LoginName == loginName;
-            Func<IQueryable<UserModel>, IIncludableQueryable<UserModel, object>> include = (user) => user.Include(u => u.UserRoles).ThenInclude(ur => ur.Role).ThenInclude(r => r.RoleMenus).ThenInclude(rm => rm.Menu);
+            //Func<IQueryable<UserModel>, IIncludableQueryable<UserModel, object>> include = (user) => user.Include(u => u.UserRoles).ThenInclude(ur => ur.Role).ThenInclude(r => r.RoleMenus).ThenInclude(rm => rm.Menu);
 
             //var cfgs = unitOfWork.SqlQuery<ConfigurationListModel>("select * from T_Configuration");
 
-            return unitOfWork.GetRepository<UserModel>().GetFirstOrDefault(predicate: predicate, include: include, orderBy: orderBy);
+            return unitOfWork.GetRepository<UserModel>().GetFirstOrDefault(predicate: predicate, orderBy: orderBy);
         }
 
         /// <summary>
