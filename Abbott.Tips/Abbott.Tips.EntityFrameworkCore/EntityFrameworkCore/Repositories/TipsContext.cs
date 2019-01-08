@@ -84,6 +84,8 @@ namespace Abbott.Tips.EntityFrameworkCore
 
         public DbSet<RegionModel> Regions { get; set; }
 
+        public DbSet<TEventModel> Events { get; set; }
+
         public DbSet<OrganizationModel> Organizations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

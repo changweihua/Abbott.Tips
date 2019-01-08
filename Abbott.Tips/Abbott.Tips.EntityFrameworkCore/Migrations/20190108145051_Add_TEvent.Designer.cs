@@ -4,14 +4,16 @@ using Abbott.Tips.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Abbott.Tips.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(TipsContext))]
-    partial class TipsContextModelSnapshot : ModelSnapshot
+    [Migration("20190108145051_Add_TEvent")]
+    partial class Add_TEvent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -323,11 +325,11 @@ namespace Abbott.Tips.EntityFrameworkCore.Migrations
 
                     b.Property<DateTime>("CreatedTime");
 
-                    b.Property<Guid>("EventId");
+                    b.Property<string>("EventId");
 
                     b.Property<string>("EventPayload");
 
-                    b.Property<DateTime>("EventTimestamp");
+                    b.Property<string>("EventTimestamp");
 
                     b.Property<bool>("IsDeleted");
 

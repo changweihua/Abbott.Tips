@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abbott.Tips.ApiCore;
 using Abbott.Tips.ApiCore.Corss;
+using Abbott.Tips.ApiCore.Events;
+using Abbott.Tips.Framework.EventBus;
+using Abbott.Tips.Framework.EventBus.Services;
 using Herbalife_HGDX.MVC.Authority;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +36,12 @@ namespace Abbott.Tips.WebHost
         public override IServiceProvider ConfigureServices(IServiceCollection services)
         {
             #region Session & Cookie
+
+
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = false;
+            });
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -83,6 +92,10 @@ namespace Abbott.Tips.WebHost
             services.AddDirectoryBrowser();
 
             #endregion
+
+            services.AddTransient<IEventHandler, UserLoginedEventHandler>();
+            services.AddTransient<IEventStore>(serviceProvider => new EntityFrameworkEventStore());
+            services.AddSingleton<IEventBus, PassThroughEventBus>();
 
             #region CROS
 
@@ -277,6 +290,9 @@ namespace Abbott.Tips.WebHost
             //        }
             //    )
             // });
+
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe();
 
             app.UseCors("Tips");
 

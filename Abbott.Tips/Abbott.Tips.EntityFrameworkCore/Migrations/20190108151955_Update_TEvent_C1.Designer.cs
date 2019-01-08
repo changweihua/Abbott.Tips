@@ -4,14 +4,16 @@ using Abbott.Tips.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Abbott.Tips.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(TipsContext))]
-    partial class TipsContextModelSnapshot : ModelSnapshot
+    [Migration("20190108151955_Update_TEvent_C1")]
+    partial class Update_TEvent_C1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -4,8 +4,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Abbott.Tips.ApiCore.Controllers;
+using Abbott.Tips.ApiCore.Events;
 using Abbott.Tips.ApiCore.Jwts;
 using Abbott.Tips.Application.Users;
+using Abbott.Tips.Framework.EventBus;
+using Abbott.Tips.Framework.EventBus.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +19,13 @@ namespace Abbott.Tips.WebHost.Controllers
     public class OAuthController : JwtOauthController
     {
         public UserService iUserService { get; set; }
+
+        public IEventBus EventBus { get; set; }
+
+        public OAuthController(IEventBus eventBus)
+        {
+            EventBus = eventBus;
+        }
 
         /// <summary>
         /// 返回新的 token 并设置 Cookie
@@ -39,7 +49,7 @@ namespace Abbott.Tips.WebHost.Controllers
                     };
                     var token = JwtTokenGenerator.GenerateToken(estUser.LoginName, claims, DateTime.Now.AddDays(1));
                     await HttpContext.SignInAsync(estUser.LoginName, claims, DateTime.Now.AddDays(1));
-
+                    await this.EventBus.PublishAsync(new UserLoginedEvent(estUser.LoginName));
                     return Ok(new { Code = 0, Token = token, User = estUser });
                 }
             }

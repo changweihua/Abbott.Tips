@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Abbott.Tips.Application\Abbott.Tips.Application.csproj" />
     <ProjectReference Include="..\Abbott.Tips.AspnetCore\Abbott.Tips.AspnetCore.csproj" />
     <ProjectReference Include="..\Abbott.Tips.Core\Abbott.Tips.Core.csproj" />
   </ItemGroup>
