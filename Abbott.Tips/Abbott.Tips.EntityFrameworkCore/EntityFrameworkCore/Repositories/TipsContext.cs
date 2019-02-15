@@ -20,6 +20,11 @@ namespace Abbott.Tips.EntityFrameworkCore
             //设置数据库Command永不超时
             //this.Database.SetCommandTimeout(0);
 
+            //解决团队开发中，多人迁移数据库造成的修改覆盖问题。
+            //this.Database.se<TipsContext>(null);
+            ////关闭EF6.x 默认自动生成null判断语句
+            //base.Configuration.UseDatabaseNullSemantics = true;    
+
             //DbContext.ChangeTracker.StateChanged事件，会在DbContext中被Track的实体其EntityState状态值发生变化时被触发
             this.ChangeTracker.StateChanged += (sender, entityStateChangedEventArgs) =>
             {

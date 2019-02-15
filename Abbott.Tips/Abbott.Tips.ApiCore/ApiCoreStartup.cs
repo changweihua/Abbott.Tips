@@ -37,7 +37,8 @@ namespace Abbott.Tips.ApiCore
 
             services.AddDbContext<TipsContext>(opt =>
                 {
-                    opt.UseSqlServer(Configuration.GetConnectionString("SqlServer"));
+                    //b => b.UseRowNumberForPaging()，解决低版本SQL数据库不支持OFFSET语法
+                    opt.UseSqlServer(Configuration.GetConnectionString("SqlServer"), b => b.UseRowNumberForPaging());
                     //opt.UseRemoveForeignKeyService();
                 }).AddUnitOfWork<TipsContext>();
 

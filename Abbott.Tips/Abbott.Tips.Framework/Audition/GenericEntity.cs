@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Abbott.Tips.Framework.Audition
@@ -33,6 +34,15 @@ namespace Abbott.Tips.Framework.Audition
         /// 获取或设置 创建时间
         /// </summary>
         public DateTime CreatedTime { get; set; }
+
+        [NotMapped]
+        public string CreatedUtcTime
+        {
+            get
+            {
+                return CreatedTime.ToUniversalTime().ToString("r");
+            }
+        }
 
         public int CreatedBy { get; set; }
 
@@ -82,6 +92,19 @@ namespace Abbott.Tips.Framework.Audition
         /// 获取或设置 更新时间
         /// </summary>
         public DateTime? UpdatedTime { get; set; }
+
+        [NotMapped]
+        public string UpdatedUtcTime
+        {
+            get
+            {
+                if (!UpdatedTime.HasValue)
+                {
+                    return string.Empty;
+                }
+                return UpdatedTime.GetValueOrDefault().ToUniversalTime().ToString("r");
+            }
+        }
 
         public int? UpdatedBy { get; set; }
 
