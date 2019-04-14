@@ -96,7 +96,6 @@ namespace Abbott.Tips.EntityFrameworkCore
             modelBuilder.Query<UserMenuPermissionModel>();
             modelBuilder.Query<UserPermissionModel>();
             modelBuilder.Query<RoleMenuListModel>();
-            modelBuilder.Query<ShareCategoryListModel>();
 
             var mappingInterface = typeof(IEntityTypeConfiguration<>);
             // Types that do entity mapping

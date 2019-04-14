@@ -49,7 +49,7 @@ namespace Abbott.Tips.WebHost.Controllers
                     };
                     var token = JwtTokenGenerator.GenerateToken(estUser.LoginName, claims, DateTime.Now.AddDays(1));
                     await HttpContext.SignInAsync(estUser.LoginName, claims, DateTime.Now.AddDays(1));
-                    await this.EventBus.PublishAsync(new UserLoginedEvent(estUser.LoginName));
+                    //await this.EventBus.PublishAsync(new UserLoginedEvent(estUser.LoginName));
                     return Ok(new { Code = 0, Token = token, User = estUser });
                 }
             }

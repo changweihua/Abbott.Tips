@@ -7,7 +7,7 @@ using System.Text;
 namespace Abbott.Tips.Framework.Audition
 {
     /// <summary>
-    /// Model 泛型基类
+    /// Database Model 泛型基类
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     public abstract class IdentityKeyEntity<TKey>
