@@ -50,6 +50,13 @@ namespace Abbott.Tips.ApiCore
             // 引入 AutoMapper 组件
             services.AddAutoMapper();
 
+            //AutoMapper.IConfigurationProvider config = new MapperConfiguration(cfg =>
+            //{
+            //    cfg.AddProfile<Application.Configurations.Dtos.ConfigurationMapperProfile>();
+            //});
+            //services.AddSingleton(config);
+            //services.AddScoped<IMapper, Mapper>();
+
             #endregion
 
             #region Session & Cookie
@@ -134,7 +141,7 @@ namespace Abbott.Tips.ApiCore
         {
             #region AutoMapper 引入
 
-            //AutoMapperConfig.RegisterMappings();
+            AutoMapperConfig.RegisterMappings();
 
             #endregion
 

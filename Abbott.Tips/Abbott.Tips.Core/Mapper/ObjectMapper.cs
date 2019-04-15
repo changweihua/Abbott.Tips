@@ -1,19 +1,29 @@
-﻿using System;
+﻿using Abbott.Tips.Framework.Dependency;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Abbott.Tips.Core.Mapper
 {
-    public sealed class ObjectMapper
+    public class ObjectMapper : IObjectMapper
     {
-        public static TDestination Map<TDestination>(object source)
+        public AutoMapper.IMapper Mapper { get; set; }
+
+        public TDestination Map<TDestination>(object source)
         {
-            return AutoMapper.Mapper.Map<TDestination>(source);
+            return Mapper.Map<TDestination>(source);
         }
 
-        public static TDestination Map<TSource, TDestination>(TSource source, TDestination destination)
+        public TDestination Map<TSource, TDestination>(TSource source, TDestination destination)
         {
-            return AutoMapper.Mapper.Map<TSource, TDestination>(source);
+            return Mapper.Map<TSource, TDestination>(source);
         }
+    }
+
+    public interface IObjectMapper : ISingletonDependency
+    {
+        TDestination Map<TDestination>(object source);
+
+        TDestination Map<TSource, TDestination>(TSource source, TDestination destination);
     }
 }

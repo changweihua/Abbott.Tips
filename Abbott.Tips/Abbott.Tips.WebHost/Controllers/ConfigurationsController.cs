@@ -20,6 +20,8 @@ namespace Abbott.Tips.WebHost.Controllers
     {
         public IConfigurationService iConfigurationService { get; set; }
 
+        public IObjectMapper ObjectMapper { get; set; }
+
         /// <summary>
         /// 获取全部配置项
         /// </summary>
