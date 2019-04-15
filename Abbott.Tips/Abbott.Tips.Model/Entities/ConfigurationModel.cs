@@ -10,8 +10,6 @@ namespace Abbott.Tips.Model.Entities
         public string ConfigValue { get; set; }
         public string ConfigName { get; set; }
         public string ConfigDescription { get; set; }
-
-        public int EditMode { get; set; }
     }
 
     public enum ConfigType

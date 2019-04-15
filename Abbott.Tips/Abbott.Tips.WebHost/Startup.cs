@@ -223,13 +223,10 @@ namespace Abbott.Tips.WebHost
                 //});
 
                 #endregion
-
             }
             else
             {
                 app.UseExceptionHandler("/Error");
-
-
             }
 
             #region 404等错误处理
@@ -237,7 +234,6 @@ namespace Abbott.Tips.WebHost
             app.UseStatusCodePagesWithReExecute("/error/{0}");
 
             #endregion
-
 
             #region 访问静态文件
 

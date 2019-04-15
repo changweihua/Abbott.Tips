@@ -1,5 +1,5 @@
-﻿using Abbott.Tips.Framework.Audition;
-using Abbott.Tips.Model;
+﻿using Abbott.Tips.Model;
+using Abbott.Tips.Model.Audition;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -15,6 +15,12 @@ namespace Abbott.Tips.EntityFrameworkCore.EntityTypeConfigurations
             if (typeof(TEntity) is ISoftDelete)
             {
                 builder.HasQueryFilter(p => !p.IsDeleted);
+                builder.Property(p => p.IsDeleted).HasDefaultValue(false);
+            }
+
+            if (typeof(TEntity) is CreationAuditedEntity<TKey>)
+            {
+                builder.Property(p => p.CreatedTime).HasDefaultValue();
             }
         }
     }

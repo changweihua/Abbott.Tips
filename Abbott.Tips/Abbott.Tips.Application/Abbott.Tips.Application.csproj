@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Abbott.Tips.EntityFrameworkCore\Abbott.Tips.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Abbott.Tips.Framework\Abbott.Tips.Framework.csproj" />
     <ProjectReference Include="..\Abbott.Tips.Model\Abbott.Tips.Model.csproj" />

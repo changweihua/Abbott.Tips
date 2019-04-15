@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abbott.Tips.ApiCore.Controllers;
+using Abbott.Tips.Application.Configurations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Abbott.Tips.WebHost.Controllers
 {
     public class ValuesController : TipsApiController
     {
+        public IConfigurationService iConfigurationService { get; set; }
+
         // GET api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(new { Code = 0, Items = new string[] { "value1", "value2" } });
+            var cfgs = await iConfigurationService.GetConfigurationList("");
+            return Ok(new { Code = 0, Items = cfgs });
         }
 
         // GET api/values/5

@@ -28,6 +28,12 @@ namespace Abbott.Tips.AspnetCore.Autofacs
                    .AsSelf().AsImplementedInterfaces()
                    .PropertiesAutowired().SingleInstance();
 
+            Type itBaseType = typeof(ITransientDependency);
+            builder.RegisterAssemblyTypes(assemblies)
+                   .Where(type => itBaseType.IsAssignableFrom(type) && !type.IsAbstract && type.Name.EndsWith("Service"))
+                   .AsSelf().AsImplementedInterfaces()
+                   .PropertiesAutowired();
+
             //Type interceptorType = typeof(IInterceptor);
             //builder.RegisterAssemblyTypes(assemblies)
             //       .Where(type => interceptorType.IsAssignableFrom(type) && !type.IsAbstract && type.Name.EndsWith("Interceptor"))

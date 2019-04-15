@@ -2,6 +2,7 @@
 using Abbott.Tips.EntityFrameworkCore.Mappers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -21,10 +22,16 @@ namespace Abbott.Tips.ApiCore.Mappers
                .SelectMany(y => y.DefinedTypes)
                .Where(type => typeof(IMapperProfile).GetTypeInfo().IsAssignableFrom(type.AsType()));
 
-            foreach (var typeInfo in allType)
+            var allTypes = Directory.GetFiles(AppContext.BaseDirectory, "*.dll").Select(Assembly.LoadFrom)
+               .SelectMany(y => y.DefinedTypes)
+               .Where(type => typeof(IMapperProfile).GetTypeInfo().IsAssignableFrom(type.AsType()));
+
+
+            foreach (var typeInfo in allTypes)
             {
                 var type = typeInfo.AsType();
-                if (type.Equals(typeof(IMapperProfile)))
+                if (type is IMapperProfile)
+                //if (type.Equals(typeof(IMapperProfile)))
                 {
                     //注册映射
                     AutoMapper.Mapper.Initialize(y =>

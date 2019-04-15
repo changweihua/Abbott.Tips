@@ -92,7 +92,7 @@ namespace Abbott.Tips.EntityFrameworkCore
         {
             // modelBuilder.EnableAutoHistory(null);
 
-            modelBuilder.Query<ConfigurationListModel>();
+            //modelBuilder.Query<ConfigurationListModel>();
             modelBuilder.Query<UserMenuPermissionModel>();
             modelBuilder.Query<UserPermissionModel>();
             modelBuilder.Query<RoleMenuListModel>();

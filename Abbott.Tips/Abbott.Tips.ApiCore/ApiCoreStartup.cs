@@ -9,6 +9,7 @@ using Abbott.Tips.EntityFrameworkCore;
 using Abbott.Tips.EntityFrameworkCore.Configurations;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -47,7 +48,7 @@ namespace Abbott.Tips.ApiCore
             services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
 
             // 引入 AutoMapper 组件
-            //services.AddAutoMapper();
+            services.AddAutoMapper();
 
             #endregion
 
@@ -133,7 +134,7 @@ namespace Abbott.Tips.ApiCore
         {
             #region AutoMapper 引入
 
-            AutoMapperConfig.RegisterMappings();
+            //AutoMapperConfig.RegisterMappings();
 
             #endregion
 

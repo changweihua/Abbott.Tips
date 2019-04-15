@@ -10,6 +10,5 @@ namespace Abbott.Tips.ApiCore.Controllers
     [ApiController]
     public class ApiCoreController : ControllerBase
     {
-
     }
 }

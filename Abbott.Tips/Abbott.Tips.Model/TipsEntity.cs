@@ -1,4 +1,4 @@
-﻿using Abbott.Tips.Framework.Audition;
+﻿using Abbott.Tips.Model.Audition;
 using System;
 using System.Collections.Generic;
 using System.Text;

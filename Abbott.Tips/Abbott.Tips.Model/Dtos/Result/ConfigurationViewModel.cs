@@ -3,21 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Abbott.Tips.Model.Result
 {
-    public class ConfigurationListModel
-    {
-        [Column("ConfigName")]
-        public string ConfigurationName { get; set; }
+    #region 自定义
 
-        [NotMapped]
-        public string CreatedUser { get; set; }
+    #endregion
 
-        [NotMapped]
-        public DateTime CreatedDate { get; set; }
-
-        [NotMapped]
-        public string UpdatedUser { get; set; }
-
-        [NotMapped]
-        public DateTime UpdatedDate { get; set; }
-    }
+    
 }

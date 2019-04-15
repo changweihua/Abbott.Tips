@@ -1,6 +1,6 @@
 ﻿using Abbott.Tips.AspnetCore.Authority;
-using Abbott.Tips.Framework.Audition;
 using Abbott.Tips.Model;
+using Abbott.Tips.Model.Audition;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using System;
