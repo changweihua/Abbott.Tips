@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Abbott.Tips.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +9,7 @@ namespace Abbott.Tips.EntityFrameworkCore.UnitOfWork.PagedList
     /// Provides the interface(s) for paged list of any type.
     /// </summary>
     /// <typeparam name="T">The type for paging.</typeparam>
-    public interface IPagedList<T>
+    public interface IPagedList<T> : IPager<T>
     {
         /// <summary>
         /// Gets the index start value.

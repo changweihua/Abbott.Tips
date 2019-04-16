@@ -6,8 +6,8 @@ using Abbott.Tips.Application.Configurations;
 using Abbott.Tips.Application.Configurations.Dtos;
 using Abbott.Tips.Core.Mapper;
 using Abbott.Tips.Model.Dtos.Query;
-using Abbott.Tips.Model.Dtos.Result;
 using Abbott.Tips.Model.Entities;
+using Abbott.Tips.Model.Result;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,9 +42,11 @@ namespace Abbott.Tips.WebHost.Controllers
         [Route("pager")]
         public async Task<IActionResult> GetPager()
         {
-            var cfgs = await iConfigurationService.GetPagerAsync();
+            var pager = await iConfigurationService.GetPagerAsync();
             //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { SerializationFilter = new AConfigurationAttribute(), Code = 0, Items = cfgs.Items.Select(_ => _.ToConfigurationListModel()).ToList() });
-            return Ok(new ListJsonContractResultModel<ConfigurationListModel> { SerializationFilter = new AConfigurationAttribute(), Code = 0, Items = ObjectMapper.Map<IList<ConfigurationListModel>>(cfgs.Items) });
+            //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { SerializationFilter = new AConfigurationAttribute(), Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(cfgs.Items) });
+            //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(cfgs.Items) });
+            return Ok(new JsonListResultModel<ConfigurationListModel> { Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(pager.Items), PageIndex = pager.PageIndex, PageSize = pager.PageSize, TotalCount = pager.TotalCount });
         }
 
         /// <summary>

@@ -48,14 +48,15 @@ namespace Abbott.Tips.ApiCore
             services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
 
             // 引入 AutoMapper 组件
-            services.AddAutoMapper();
+            // 会在当前程序集自动找出所有继承自 Profile 的子类添加到配置中
+            //services.AddAutoMapper();
 
-            //AutoMapper.IConfigurationProvider config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.AddProfile<Application.Configurations.Dtos.ConfigurationMapperProfile>();
-            //});
-            //services.AddSingleton(config);
-            //services.AddScoped<IMapper, Mapper>();
+            #region 不想使用 AddAutoMapper()  通过反射自动找出 Profile ，建议使用这种方式
+
+            services.AddSingleton(AutoMapperConfig.GetConfigurationProvider());
+            services.AddScoped<IMapper, Mapper>();
+
+            #endregion
 
             #endregion
 
@@ -141,7 +142,7 @@ namespace Abbott.Tips.ApiCore
         {
             #region AutoMapper 引入
 
-            AutoMapperConfig.RegisterMappings();
+            //AutoMapperConfig.RegisterMappings();
 
             #endregion
 

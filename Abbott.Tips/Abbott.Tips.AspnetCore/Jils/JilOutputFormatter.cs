@@ -1,5 +1,4 @@
-﻿using Abbott.Tips.Model.Dtos.Result;
-using Jil;
+﻿using Jil;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
 using System.Collections.Generic;
@@ -50,30 +49,31 @@ namespace Abbott.Tips.AspnetCore.Jils
             using (var writer = context.WriterFactory(response.Body, Encoding.UTF8))
             {
                 // 使用 Jil 序列化
-                if (context.Object is JsonContractResultModel)
-                {
-                    var tmpObj = context.Object as JsonContractResultModel;
-                    if (tmpObj.SerializationFilter == null)
-                    {
-                        JSON.Serialize(context.Object, writer, _options);
-                    }
-                    else
-                    {
-                        dynamic d = new System.Dynamic.ExpandoObject();
-                        foreach (var item in tmpObj.SerializationFilter.GetType().GetProperties())
-                        {
-                            if (item.GetCustomAttributes(false).Contains(tmpObj.SerializationFilter))
-                            {
-                                (d as ICollection<KeyValuePair<string, object>>).Add(new KeyValuePair<string, object>(item.Name, item.GetValue(context.Object)));
-                            }
-                        }
-                        JSON.Serialize(d, writer, _options);
-                    }
-                }
-                else
-                {
-                    JSON.Serialize(context.Object, writer, _options);
-                }
+                //if (context.Object is JsonContractResultModel)
+                //{
+                //    var tmpObj = context.Object as JsonContractResultModel;
+                //    if (tmpObj.SerializationFilter == null)
+                //    {
+                //        JSON.Serialize(context.Object, writer, _options);
+                //    }
+                //    else
+                //    {
+                //        dynamic d = new System.Dynamic.ExpandoObject();
+                //        foreach (var item in tmpObj.SerializationFilter.GetType().GetProperties())
+                //        {
+                //            if (item.GetCustomAttributes(false).Contains(tmpObj.SerializationFilter))
+                //            {
+                //                (d as ICollection<KeyValuePair<string, object>>).Add(new KeyValuePair<string, object>(item.Name, item.GetValue(context.Object)));
+                //            }
+                //        }
+                //        JSON.Serialize(d, writer, _options);
+                //    }
+                //}
+                //else
+                //{
+                //    JSON.Serialize(context.Object, writer, _options);
+                //}
+                JSON.Serialize(context.Object, writer, _options);
                 return Task.CompletedTask;
             }
         }

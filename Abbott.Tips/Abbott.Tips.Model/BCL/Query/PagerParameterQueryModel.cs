@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Abbott.Tips.Model
+namespace Abbott.Tips.Model.Query
 {
     /// <summary>
     /// 分页请求的参数：page、limit
@@ -113,5 +113,4 @@ namespace Abbott.Tips.Model
     }
 
     #endregion
-
 }
