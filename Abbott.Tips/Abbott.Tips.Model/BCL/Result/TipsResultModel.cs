@@ -58,4 +58,13 @@ namespace Abbott.Tips.Model.Result
     {
         public IPager<TEntity> Pager { get; set; }
     }
+
+    /// <summary>
+    /// 简单对象格式
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    public class ObjectResultModel<TEntity> : JsonResultModel
+    {
+        public TEntity Entity { get; set; }
+    }
 }

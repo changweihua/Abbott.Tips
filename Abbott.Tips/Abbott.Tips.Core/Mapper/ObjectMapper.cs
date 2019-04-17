@@ -16,7 +16,7 @@ namespace Abbott.Tips.Core.Mapper
 
         public TDestination Map<TSource, TDestination>(TSource source, TDestination destination)
         {
-            return Mapper.Map<TSource, TDestination>(source);
+            return Mapper.Map(source, destination);
         }
     }
 

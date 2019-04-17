@@ -117,7 +117,7 @@ namespace Abbott.Tips.EntityFrameworkCore.UnitOfWork
         {
             if (ensureAutoHistory)
             {
-                // _context.EnsureAutoHistory();
+                _context.EnsureAutoHistory();
             }
 
             return _context.SaveChanges();
@@ -132,7 +132,7 @@ namespace Abbott.Tips.EntityFrameworkCore.UnitOfWork
         {
             if (ensureAutoHistory)
             {
-                // _context.EnsureAutoHistory();
+                _context.EnsureAutoHistory();
             }
 
             return await _context.SaveChangesAsync();

@@ -59,8 +59,56 @@ namespace Abbott.Tips.WebHost.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(NullableIdDto<int> input)
         {
-            var cfgs = await iConfigurationService.GetPagerAsync();
-            return Ok(new { Code = 0, Items = cfgs });
+            var cfg = await iConfigurationService.Get<ConfigurationListModel>(predicate: c => c.Id == input.Id.GetValueOrDefault());
+            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = ResultCode.SUCCESS, Entity = cfg });
+        }
+
+        /// <summary>
+        /// 获取单个
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var cfg = await iConfigurationService.Get<ConfigurationListModel>(predicate: c => c.Id == id);
+            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = ResultCode.SUCCESS, Entity = cfg });
+        }
+
+        /// <summary>
+        /// 新增配置项
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody]ConfigurationModel model)
+        {
+            var cfg = await iConfigurationService.Add<ConfigurationListModel>(model);
+
+            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = ResultCode.SUCCESS, Entity = cfg });
+        }
+
+        /// <summary>
+        /// 更新配置项
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody]ConfigurationModel model)
+        {
+            model.UpdatedTime = DateTime.Now;
+            var cfg = await iConfigurationService.Update<ConfigurationListModel>(model);
+
+            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = ResultCode.SUCCESS, Entity = cfg });
+        }
+
+        /// <summary>
+        /// 更新配置项
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody]ConfigurationModel model)
+        {
+            var cfg = await iConfigurationService.Delete<ConfigurationListModel>(model);
+
+            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = ResultCode.SUCCESS, Entity = cfg });
         }
     }
 }

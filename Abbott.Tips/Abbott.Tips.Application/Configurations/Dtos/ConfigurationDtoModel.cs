@@ -7,6 +7,8 @@ namespace Abbott.Tips.Application.Configurations.Dtos
 {
     public class ConfigurationListModel
     {
+        public int Id { get; set; }
+
         [AConfiguration]
         public string ConfigurationName { get; set; }
 
@@ -17,5 +19,7 @@ namespace Abbott.Tips.Application.Configurations.Dtos
         public string UpdatedUser { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
+
+        public byte[] Timestamp { get; set; }
     }
 }

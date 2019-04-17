@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Abbott.Tips.Core\Abbott.Tips.Core.csproj" />
     <ProjectReference Include="..\Abbott.Tips.EntityFrameworkCore\Abbott.Tips.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Abbott.Tips.Framework\Abbott.Tips.Framework.csproj" />
     <ProjectReference Include="..\Abbott.Tips.Model\Abbott.Tips.Model.csproj" />
