@@ -7,7 +7,7 @@ namespace Abbott.Tips.Model.Query
     /// <summary>
     /// 操作日志列表查询模型
     /// </summary>
-    public class OperationLogListQueryModel : LayTablePagerParameterQueryModel
+    public class OperationLogListQueryModel : PagerParameterQueryModel
     {
         public string UserName { get; set; }
 

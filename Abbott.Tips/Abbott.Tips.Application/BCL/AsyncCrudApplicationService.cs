@@ -26,7 +26,7 @@ namespace Abbott.Tips.Application.BCL
             }
         }
 
-        public async Task<IPagedList<TEntity>> GetPagerAsync(Expression<Func<TEntity, bool>> predicate = null,
+        public virtual async Task<IPagedList<TEntity>> GetPagerAsync(Expression<Func<TEntity, bool>> predicate = null,
                                          Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
                                          Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
                                          int pageIndex = 0,
@@ -36,7 +36,7 @@ namespace Abbott.Tips.Application.BCL
             return await Repository.GetPagedListAsync(predicate, orderBy, include, pageIndex, pageSize, disableTracking);
         }
 
-        public async Task<IPagedList<TResult>> GetPagerAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
+        public virtual async Task<IPagedList<TResult>> GetPagerAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
                                         Expression<Func<TEntity, bool>> predicate = null,
                                         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
                                         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
@@ -68,14 +68,14 @@ namespace Abbott.Tips.Application.BCL
             return await Repository.GetFirstOrDefaultAsync(selector, predicate, orderBy, include, disableTracking);
         }
 
-        public async Task<TEntity> Add(TEntity entity)
+        public virtual async Task<TEntity> Add(TEntity entity)
         {
             await Repository.InsertAsync(entity);
             await unitOfWork.SaveChangesAsync();
             return await Task.FromResult(entity);
         }
 
-        public async Task<TResult> Add<TResult>(TEntity entity)
+        public virtual async Task<TResult> Add<TResult>(TEntity entity)
         {
             await Repository.InsertAsync(entity);
             await unitOfWork.SaveChangesAsync();

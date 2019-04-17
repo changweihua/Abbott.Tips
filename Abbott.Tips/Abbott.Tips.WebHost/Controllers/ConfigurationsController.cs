@@ -20,8 +20,6 @@ namespace Abbott.Tips.WebHost.Controllers
     {
         public IConfigurationService iConfigurationService { get; set; }
 
-        public IObjectMapper ObjectMapper { get; set; }
-
         /// <summary>
         /// 获取全部配置项
         /// </summary>
@@ -40,7 +38,7 @@ namespace Abbott.Tips.WebHost.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("pager")]
-        public async Task<IActionResult> GetPager()
+        public async Task<IActionResult> GetPager(ConfigurationPagerParameterQueryModel query)
         {
 
             //var pager = await iConfigurationService.GetPagerAsync();
@@ -48,7 +46,7 @@ namespace Abbott.Tips.WebHost.Controllers
             //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { SerializationFilter = new AConfigurationAttribute(), Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(cfgs.Items) });
             //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(cfgs.Items) });
             //return Ok(new JsonListResultModel<ConfigurationListModel> { Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(pager.Items), PageIndex = pager.PageIndex, PageSize = pager.PageSize, TotalCount = pager.TotalCount, Result = pager });
-            var pager = await iConfigurationService.GetPagerAsync(e => ObjectMapper.Map<ConfigurationListModel>(e));
+            var pager = await iConfigurationService.GetPagerAsync(e => ObjectMapper.Map<ConfigurationListModel>(e), pageIndex: query.PageIndex, pageSize: query.PageSize);
             return Ok(new PagerResultModel<ConfigurationListModel> { Code = 0, Pager = pager });
         }
 
@@ -79,9 +77,9 @@ namespace Abbott.Tips.WebHost.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody]ConfigurationModel model)
+        public async Task<IActionResult> Add([FromBody]ConfigurationCreationModel model)
         {
-            var cfg = await iConfigurationService.Add<ConfigurationListModel>(model);
+            var cfg = await iConfigurationService.Add<ConfigurationListModel>(ObjectMapper.Map<ConfigurationModel>(model));
 
             return Ok(new ObjectResultModel<ConfigurationListModel> { Code = ResultCode.SUCCESS, Entity = cfg });
         }

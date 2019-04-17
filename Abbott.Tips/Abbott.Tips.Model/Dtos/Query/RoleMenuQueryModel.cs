@@ -30,7 +30,7 @@ namespace Abbott.Tips.Model.Query
     /// <summary>
     /// 角色列表查询模型
     /// </summary>
-    public class RoleListQueryModel : LayTablePagerParameterQueryModel
+    public class RoleListQueryModel : PagerParameterQueryModel
     {
         public string RoleName { get; set; }
     }

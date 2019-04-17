@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Abbott.Tips.Model.Query
 {
-    public class MenuListQueryModel : LayTablePagerParameterQueryModel
+    public class MenuListQueryModel : PagerParameterQueryModel
     {
         public string MenuName { get; set; }
     }

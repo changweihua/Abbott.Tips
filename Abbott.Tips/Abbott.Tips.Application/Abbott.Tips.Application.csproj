@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Abbott.Tips.Model\Abbott.Tips.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Localization\SourceFiles\" />
+  </ItemGroup>
+
 </Project>

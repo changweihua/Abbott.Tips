@@ -16,7 +16,7 @@ namespace Abbott.Tips.Model.Query
     /// <summary>
     /// 用户列表查询模型
     /// </summary>
-    public class UserListQueryModel : LayTablePagerParameterQueryModel
+    public class UserListQueryModel : PagerParameterQueryModel
     {
         public string UserName { get; set; }
     }

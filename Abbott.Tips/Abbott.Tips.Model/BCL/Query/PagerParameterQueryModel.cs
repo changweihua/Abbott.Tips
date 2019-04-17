@@ -7,9 +7,8 @@ namespace Abbott.Tips.Model.Query
 {
     /// <summary>
     /// 分页请求的参数：page、limit
-    /// 适用LayUI.Table组件
     /// </summary>
-    public class LayTablePagerParameterQueryModel
+    public class PagerParameterQueryModel
     {
         /// <summary>
         /// 页码,从1开始
