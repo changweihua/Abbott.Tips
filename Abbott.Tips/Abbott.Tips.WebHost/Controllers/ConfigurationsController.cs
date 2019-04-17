@@ -40,7 +40,6 @@ namespace Abbott.Tips.WebHost.Controllers
         [Route("pager")]
         public async Task<IActionResult> GetPager(ConfigurationPagerParameterQueryModel query)
         {
-
             //var pager = await iConfigurationService.GetPagerAsync();
             //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { SerializationFilter = new AConfigurationAttribute(), Code = 0, Items = cfgs.Items.Select(_ => _.ToConfigurationListModel()).ToList() });
             //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { SerializationFilter = new AConfigurationAttribute(), Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(cfgs.Items) });

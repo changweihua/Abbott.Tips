@@ -3,6 +3,7 @@ using Abbott.Tips.ApiCore.Mappers;
 using Abbott.Tips.AspnetCore;
 using Abbott.Tips.AspnetCore.Autofacs;
 using Abbott.Tips.AspnetCore.BackgroundServices;
+using Abbott.Tips.AspnetCore.HttpContexts;
 using Abbott.Tips.AspnetCore.Jils;
 using Abbott.Tips.AspnetCore.Middlewares;
 using Abbott.Tips.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -100,6 +102,17 @@ namespace Abbott.Tips.ApiCore
 
             services.AddMemoryCache();
 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+                options.SuppressConsumesConstraintForFormFileParameters = true;
+
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    return new BadRequestObjectResult(actionContext.ModelState.Errors());
+                };
+            });
+
             services.AddMvc(options =>
             {
                 //options.Filters.Add(new AddHeaderAttribute("GlobalAddHeader",
@@ -123,6 +136,16 @@ namespace Abbott.Tips.ApiCore
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 //设置时间格式
                 options.SerializerSettings.DateFormatString = "yyyy-MM-dd";
+            })
+            //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressConsumesConstraintForFormFileParameters = true;
+                options.SuppressInferBindingSourcesForParameters = true;
+                options.SuppressModelStateInvalidFilter = true;
+                options.SuppressMapClientErrors = true;
+                options.ClientErrorMapping[404].Link =
+                    "https://httpstatuses.com/404";
             });
 
             //Autofac 注入
