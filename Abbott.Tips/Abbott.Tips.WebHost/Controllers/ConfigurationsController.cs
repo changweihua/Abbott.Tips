@@ -42,11 +42,14 @@ namespace Abbott.Tips.WebHost.Controllers
         [Route("pager")]
         public async Task<IActionResult> GetPager()
         {
-            var pager = await iConfigurationService.GetPagerAsync();
+
+            //var pager = await iConfigurationService.GetPagerAsync();
             //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { SerializationFilter = new AConfigurationAttribute(), Code = 0, Items = cfgs.Items.Select(_ => _.ToConfigurationListModel()).ToList() });
             //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { SerializationFilter = new AConfigurationAttribute(), Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(cfgs.Items) });
             //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(cfgs.Items) });
-            return Ok(new JsonListResultModel<ConfigurationListModel> { Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(pager.Items), PageIndex = pager.PageIndex, PageSize = pager.PageSize, TotalCount = pager.TotalCount });
+            //return Ok(new JsonListResultModel<ConfigurationListModel> { Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(pager.Items), PageIndex = pager.PageIndex, PageSize = pager.PageSize, TotalCount = pager.TotalCount, Result = pager });
+            var pager = await iConfigurationService.GetPagerAsync(e => ObjectMapper.Map<ConfigurationListModel>(e));
+            return Ok(new PagerResultModel<ConfigurationListModel> { Code = 0, Pager = pager });
         }
 
         /// <summary>

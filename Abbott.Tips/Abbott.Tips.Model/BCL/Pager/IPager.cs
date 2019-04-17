@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Abbott.Tips.Model
+namespace Abbott.Tips.Pager
 {
     /// <summary>
     /// Provides the interface(s) for paged list of any type.

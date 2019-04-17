@@ -1,4 +1,5 @@
 ﻿using Abbott.Tips.Application.BCL;
+using Abbott.Tips.Application.Configurations.Dtos;
 using Abbott.Tips.EntityFrameworkCore.UnitOfWork;
 using Abbott.Tips.EntityFrameworkCore.UnitOfWork.PagedList;
 using Abbott.Tips.Model.Entities;
@@ -11,10 +12,10 @@ namespace Abbott.Tips.Application.Configurations
 {
     public class ConfigurationService : AsyncCrudApplicationService<ConfigurationModel, int>, IConfigurationService
     {
-        public async Task<IPagedList<ConfigurationModel>> GetConfigurationList(string a)
+        public async Task<IPagedList<ConfigurationListModel>> GetConfigurationList(string a)
         {
             Func<IQueryable<ConfigurationModel>, IOrderedQueryable<ConfigurationModel>> orderBy = (b) => b.OrderBy(_ => _.ConfigType).ThenBy(_ => _.ConfigName);
-            return await GetPagerAsync(orderBy: orderBy);
+            return await GetPagerAsync(e => e.ToConfigurationListModel(), orderBy: orderBy);
         }
 
         public IList<ConfigurationModel> GetTypedConfigurationList(int configType)

@@ -1,4 +1,5 @@
 ﻿using Abbott.Tips.Application.BCL;
+using Abbott.Tips.Application.Configurations.Dtos;
 using Abbott.Tips.EntityFrameworkCore.UnitOfWork.PagedList;
 using Abbott.Tips.Framework.Dependency;
 using Abbott.Tips.Model.Entities;
@@ -10,7 +11,7 @@ namespace Abbott.Tips.Application.Configurations
 {
     public interface IConfigurationService : IAsyncCrudApplicationService<ConfigurationModel, int>
     {
-        Task<IPagedList<ConfigurationModel>> GetConfigurationList(string a);
+        Task<IPagedList<ConfigurationListModel>> GetConfigurationList(string a);
 
         IList<ConfigurationModel> GetTypedConfigurationList(int configType);
 

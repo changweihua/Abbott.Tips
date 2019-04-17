@@ -31,5 +31,16 @@ namespace Abbott.Tips.Application.BCL
         {
             return await Repository.GetPagedListAsync(predicate, orderBy, include, pageIndex, pageSize, disableTracking);
         }
+
+        public async Task<IPagedList<TResult>> GetPagerAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
+                                        Expression<Func<TEntity, bool>> predicate = null,
+                                        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+                                        int pageIndex = 0,
+                                        int pageSize = 20,
+                                        bool disableTracking = true) where TResult : class
+        {
+            return await Repository.GetPagedListAsync(selector, predicate, orderBy, include, pageIndex, pageSize, disableTracking);
+        }
     }
 }

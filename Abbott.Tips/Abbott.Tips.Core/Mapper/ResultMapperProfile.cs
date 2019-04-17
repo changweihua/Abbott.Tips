@@ -11,8 +11,8 @@ namespace Abbott.Tips.Core.Mapper
     {
         public ResultMapperProfile()
         {
-            CreateMap(typeof(IPager<>), typeof(JsonListResultModel<>))
-                .ForMember(dest => dest.Items, options => options.MapFrom(src => src.Items));
+            //CreateMap(typeof(IPager<>), typeof(JsonListResultModel<>))
+            //    .ForMember(dest => dest.Items, options => options.MapFrom(src => src.Items));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Abbott.Tips.EntityFrameworkCore.Mappers;
 using Abbott.Tips.Model.Entities;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,6 +25,8 @@ namespace Abbott.Tips.Application.Configurations.Dtos
 
     public static class ConfigurationMapperExt
     {
+        public static IMapper Mapper { get; set; }
+
         #region DB_Model to DTO_Model
 
         public static ConfigurationListModel ToConfigurationListModel(this ConfigurationModel entity)
