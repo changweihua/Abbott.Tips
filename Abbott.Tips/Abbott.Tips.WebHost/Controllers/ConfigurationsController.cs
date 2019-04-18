@@ -57,7 +57,7 @@ namespace Abbott.Tips.WebHost.Controllers
         public async Task<IActionResult> Get(NullableIdDto<int> input)
         {
             var cfg = await iConfigurationService.Get<ConfigurationListModel>(predicate: c => c.Id == input.Id.GetValueOrDefault());
-            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = ResultCode.SUCCESS, Entity = cfg });
+            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = (int)ResultCode.SUCCESS, Entity = cfg });
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Abbott.Tips.WebHost.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var cfg = await iConfigurationService.Get<ConfigurationListModel>(predicate: c => c.Id == id);
-            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = ResultCode.SUCCESS, Entity = cfg });
+            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = (int)ResultCode.SUCCESS, Entity = cfg });
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Abbott.Tips.WebHost.Controllers
         {
             var cfg = await iConfigurationService.Add<ConfigurationListModel>(ObjectMapper.Map<ConfigurationModel>(model));
 
-            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = ResultCode.SUCCESS, Entity = cfg });
+            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = (int)ResultCode.SUCCESS, Entity = cfg });
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Abbott.Tips.WebHost.Controllers
             model.UpdatedTime = DateTime.Now;
             var cfg = await iConfigurationService.Update<ConfigurationListModel>(model);
 
-            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = ResultCode.SUCCESS, Entity = cfg });
+            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = (int)ResultCode.SUCCESS, Entity = cfg });
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Abbott.Tips.WebHost.Controllers
         {
             var cfg = await iConfigurationService.Delete<ConfigurationListModel>(model);
 
-            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = ResultCode.SUCCESS, Entity = cfg });
+            return Ok(new ObjectResultModel<ConfigurationListModel> { Code = (int)ResultCode.SUCCESS, Entity = cfg });
         }
     }
 }

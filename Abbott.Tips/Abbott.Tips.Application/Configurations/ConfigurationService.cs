@@ -33,7 +33,7 @@ namespace Abbott.Tips.Application.Configurations
         public async Task<IPagedList<ConfigurationListModel>> GetConfigurationList(string a)
         {
             Func<IQueryable<ConfigurationModel>, IOrderedQueryable<ConfigurationModel>> orderBy = (b) => b.OrderBy(_ => _.ConfigType).ThenBy(_ => _.ConfigName);
-            return await GetPagerAsync(e => e.ToConfigurationListModel(), orderBy: orderBy);
+            return await GetPagerAsync(e => ObjectMapper.Map<ConfigurationListModel>(e), orderBy: orderBy);
         }
 
         public IList<ConfigurationModel> GetTypedConfigurationList(int configType)

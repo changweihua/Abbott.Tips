@@ -16,7 +16,7 @@ namespace Abbott.Tips.Model.Result
     /// <typeparam name="TResult"></typeparam>
     public class ResultModel
     {
-        public ResultCode Code { get; set; }
+        public int Code { get; set; }
 
         public object Result { get; set; }
     }
