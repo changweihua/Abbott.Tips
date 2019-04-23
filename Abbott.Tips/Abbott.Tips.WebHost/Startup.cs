@@ -155,8 +155,117 @@ namespace Abbott.Tips.WebHost
             return provider;
         }
 
+        private static void HandleMapTest1(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                await context.Response.WriteAsync("Map Test 1");
+            });
+        }
+
+        private static void HandleMapTest2(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                await context.Response.WriteAsync("Map Test 2");
+            });
+        }
+
         public override void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            #region 中间件管道
+
+            #region 无分支管道
+
+            //A(before)
+            //B(before)
+            //C
+            //B(after)
+            //A(after)
+
+            // Middleware A
+            app.Use(async (context, next) =>
+            {
+                Console.WriteLine("A (before)");
+                await next();
+                Console.WriteLine("A (after)");
+            });
+
+            // Middleware B
+            app.Use(async (context, next) =>
+            {
+                Console.WriteLine("B (before)");
+                await next();
+                Console.WriteLine("B (after)");
+            });
+
+            // Middleware C (terminal)
+            app.Run(async context =>
+            {
+                Console.WriteLine("C");
+                await context.Response.WriteAsync("Hello world");
+            });
+
+            #endregion
+
+            #region 无连结分支
+
+            //无连结分支很容易就理解了，就是不同的路径跑不同的分支。
+            //如果是有参数匹配的话，就要使用 MapWhen，而 MapWhen 基于给定谓词的结果创建请求管道分支。
+            //Func<HttpContext, bool> 类型的任何谓词均可用于将请求映射到管道的新分支。 
+            //谓词用于检测查询字符串变量 branch 是否存在。
+
+            app.Map("/map1", HandleMapTest1);
+
+            app.Map("/map2", HandleMapTest2);
+
+            app.Run(async context =>
+            {
+                await context.Response.WriteAsync("Hello from non-Map delegate. <p>");
+            });
+
+            #endregion
+
+            #region 有连结（重新连接上主管道）分支，创建有连结分支管道就要使用到 UseWhen
+
+            app.Use(async (context, next) =>
+            {
+                Console.WriteLine("A (before)");
+                await next();
+                Console.WriteLine("A (after)");
+            });
+
+            app.UseWhen(
+                context => context.Request.Path.StartsWithSegments(new PathString("/foo")),
+                a => a.Use(async (context, next) =>
+                {
+                    Console.WriteLine("B (before)");
+                    await next();
+                    Console.WriteLine("B (after)");
+                }));
+
+            app.Run(async context =>
+            {
+                Console.WriteLine("C");
+                await context.Response.WriteAsync("Hello world");
+            });
+
+            //像上面的代码，当请求不是以 " /foo " 开头的时候，结果为：
+            //A(before)
+            //C
+            //A(after)
+
+            //当请求是以 " /foo " 开头的时候，结果为：
+            //A(before)
+            //B(before)
+            //C
+            //B(after)
+            //A(after)
+
+            #endregion
+
+            #endregion
+
             #region NLog 日志组件
 
             loggerFactory.AddNLog();    //添加NLog  
