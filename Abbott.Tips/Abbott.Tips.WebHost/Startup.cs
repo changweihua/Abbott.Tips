@@ -8,6 +8,7 @@ using Abbott.Tips.ApiCore.Corss;
 using Abbott.Tips.ApiCore.Events;
 using Abbott.Tips.Framework.EventBus;
 using Abbott.Tips.Framework.EventBus.Services;
+using Abbott.Tips.WebHost.Hubs;
 using Herbalife_HGDX.MVC.Authority;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -150,6 +151,12 @@ namespace Abbott.Tips.WebHost
                 c.IncludeXmlComments(xmlPath);
             });
 
+            #region SignalR
+
+            services.AddSignalR();
+
+            #endregion
+
             var provider = base.ConfigureServices(services);
 
             return provider;
@@ -177,34 +184,34 @@ namespace Abbott.Tips.WebHost
 
             #region 无分支管道
 
-            //A(before)
-            //B(before)
-            //C
-            //B(after)
-            //A(after)
+            ////A(before)
+            ////B(before)
+            ////C
+            ////B(after)
+            ////A(after)
 
-            // Middleware A
-            app.Use(async (context, next) =>
-            {
-                Console.WriteLine("A (before)");
-                await next();
-                Console.WriteLine("A (after)");
-            });
+            //// Middleware A
+            //app.Use(async (context, next) =>
+            //{
+            //    Console.WriteLine("A (before)");
+            //    await next();
+            //    Console.WriteLine("A (after)");
+            //});
 
-            // Middleware B
-            app.Use(async (context, next) =>
-            {
-                Console.WriteLine("B (before)");
-                await next();
-                Console.WriteLine("B (after)");
-            });
+            //// Middleware B
+            //app.Use(async (context, next) =>
+            //{
+            //    Console.WriteLine("B (before)");
+            //    await next();
+            //    Console.WriteLine("B (after)");
+            //});
 
-            // Middleware C (terminal)
-            app.Run(async context =>
-            {
-                Console.WriteLine("C");
-                await context.Response.WriteAsync("Hello world");
-            });
+            //// Middleware C (terminal)
+            //app.Run(async context =>
+            //{
+            //    Console.WriteLine("C");
+            //    await context.Response.WriteAsync("Hello world");
+            //});
 
             #endregion
 
@@ -215,40 +222,40 @@ namespace Abbott.Tips.WebHost
             //Func<HttpContext, bool> 类型的任何谓词均可用于将请求映射到管道的新分支。 
             //谓词用于检测查询字符串变量 branch 是否存在。
 
-            app.Map("/map1", HandleMapTest1);
+            //app.Map("/map1", HandleMapTest1);
 
-            app.Map("/map2", HandleMapTest2);
+            //app.Map("/map2", HandleMapTest2);
 
-            app.Run(async context =>
-            {
-                await context.Response.WriteAsync("Hello from non-Map delegate. <p>");
-            });
+            //app.Run(async context =>
+            //{
+            //    await context.Response.WriteAsync("Hello from non-Map delegate. <p>");
+            //});
 
             #endregion
 
             #region 有连结（重新连接上主管道）分支，创建有连结分支管道就要使用到 UseWhen
 
-            app.Use(async (context, next) =>
-            {
-                Console.WriteLine("A (before)");
-                await next();
-                Console.WriteLine("A (after)");
-            });
+            //app.Use(async (context, next) =>
+            //{
+            //    Console.WriteLine("A (before)");
+            //    await next();
+            //    Console.WriteLine("A (after)");
+            //});
 
-            app.UseWhen(
-                context => context.Request.Path.StartsWithSegments(new PathString("/foo")),
-                a => a.Use(async (context, next) =>
-                {
-                    Console.WriteLine("B (before)");
-                    await next();
-                    Console.WriteLine("B (after)");
-                }));
+            //app.UseWhen(
+            //    context => context.Request.Path.StartsWithSegments(new PathString("/foo")),
+            //    a => a.Use(async (context, next) =>
+            //    {
+            //        Console.WriteLine("B (before)");
+            //        await next();
+            //        Console.WriteLine("B (after)");
+            //    }));
 
-            app.Run(async context =>
-            {
-                Console.WriteLine("C");
-                await context.Response.WriteAsync("Hello world");
-            });
+            //app.Run(async context =>
+            //{
+            //    Console.WriteLine("C");
+            //    await context.Response.WriteAsync("Hello world");
+            //});
 
             //像上面的代码，当请求不是以 " /foo " 开头的时候，结果为：
             //A(before)
@@ -399,7 +406,9 @@ namespace Abbott.Tips.WebHost
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe();
 
-            app.UseCors("Tips");
+            app.UseCors("Tips");//顺序必须在 app.UseSignalR ... 这句设置之前才行，  
+
+            app.UseSignalR(routes => routes.MapHub<TestHub>("/test"));
 
             //启用中间件服务生成Swagger作为JSON终结点
             app.UseSwagger();
