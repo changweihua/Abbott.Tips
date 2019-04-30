@@ -26,7 +26,7 @@ namespace Abbott.Tips.WebHost.Controllers
             await _testHub.Clients.All.SendAsync("someFunc", new { random = "abcd" });
 
             // 202: 请求已被接受并处理，但是还没有处理完成
-            return Ok();
+            //return Ok();
             return Accepted(1);
         }
 

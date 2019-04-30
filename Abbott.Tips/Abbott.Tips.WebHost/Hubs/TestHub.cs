@@ -12,7 +12,7 @@ namespace Abbott.Tips.WebHost.Hubs
     {
         public async Task GetLastestCount(string random)
         {
-            int count = 0;
+            int count = 10;
             //var userName = Context.User.Identity.Name;
             do
             {
@@ -25,7 +25,7 @@ namespace Abbott.Tips.WebHost.Hubs
         {
             var connectionId = Context.ConnectionId;
             await Clients.Client(connectionId).SendAsync("someFunc", new { random = DateTime.Now });
-            await Clients.AllExcept(connectionId).SendAsync("someFunc");
+            await Clients.AllExcept(connectionId).SendAsync("someFunc", new { random = DateTime.Now });
 
             await Groups.AddToGroupAsync(connectionId, "MyGroup");
             await Groups.RemoveFromGroupAsync(connectionId, "MyGroup");
