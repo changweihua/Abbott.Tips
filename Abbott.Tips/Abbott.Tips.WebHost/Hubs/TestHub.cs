@@ -16,9 +16,9 @@ namespace Abbott.Tips.WebHost.Hubs
             //var userName = Context.User.Identity.Name;
             do
             {
-                await Clients.All.SendAsync("ReceiveUpdate", random);
+                await Clients.All.SendAsync("ReceiveUpdate", new { random = random });
             } while (count < 10);
-            await Clients.All.SendAsync("Finished");
+            //await Clients.All.SendAsync("Finished");
         }
 
         public override async Task OnConnectedAsync()

@@ -23,7 +23,7 @@ namespace Abbott.Tips.WebHost.Controllers
         [HttpPost]
         public async Task<IActionResult> Post()
         {
-            await _testHub.Clients.All.SendAsync("someFunc", new { random = "abcd" });
+            await _testHub.Clients.All.SendAsync("someFunc", new { random = "尚未签到" });
 
             // 202: 请求已被接受并处理，但是还没有处理完成
             //return Ok();

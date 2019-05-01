@@ -43,7 +43,7 @@ namespace Abbott.Tips.Application.Configurations.Dtos
 
         public static ConfigurationListModel ToConfigurationListModel(this ConfigurationModel entity)
         {
-            return AutoMapper.Mapper.Map<ConfigurationModel, ConfigurationListModel>(entity);
+            return Mapper.Map<ConfigurationModel, ConfigurationListModel>(entity);
         }
 
         #endregion

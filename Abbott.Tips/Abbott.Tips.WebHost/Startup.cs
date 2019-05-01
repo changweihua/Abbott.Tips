@@ -95,7 +95,8 @@ namespace Abbott.Tips.WebHost
             #endregion
 
             services.AddTransient<IEventHandler, UserLoginedEventHandler>();
-            services.AddTransient<IEventStore>(serviceProvider => new EntityFrameworkEventStore());
+            //services.AddTransient<IEventStore>(serviceProvider => new EntityFrameworkEventStore());
+            services.AddTransient<IEventStore, EntityFrameworkEventStore>();
             services.AddSingleton<IEventBus, PassThroughEventBus>();
 
             #region CROS

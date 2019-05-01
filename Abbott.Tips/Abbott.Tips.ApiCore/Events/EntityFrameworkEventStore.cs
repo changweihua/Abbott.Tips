@@ -10,10 +10,11 @@ namespace Abbott.Tips.ApiCore.Events
 {
     public class EntityFrameworkEventStore : IEventStore
     {
-        public EventService iEventService { get; set; }
+        private readonly IEventService iEventService;
 
-        public EntityFrameworkEventStore()
+        public EntityFrameworkEventStore(IEventService eventService)
         {
+            iEventService = eventService;
         }
 
         public async Task SaveEventAsync<TEvent>(TEvent @event) where TEvent : IEvent

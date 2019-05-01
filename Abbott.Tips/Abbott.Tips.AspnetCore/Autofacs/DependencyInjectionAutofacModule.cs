@@ -9,8 +9,18 @@ using System.Text;
 
 namespace Abbott.Tips.AspnetCore.Autofacs
 {
-    public class ServiceInjectionAutofacModule : Autofac.Module
+    public class DependencyInjectionAutofacModule : Autofac.Module
     {
+        bool FilterType(string typeName, string suffix = "Service")
+        {
+            if (string.IsNullOrEmpty(typeName) || string.IsNullOrEmpty(suffix))
+            {
+                return true;
+            }
+
+            return !typeName.EndsWith(suffix);
+        }
+
         protected override void Load(ContainerBuilder builder)
         {
             //注册所有实现了 IDependency 接口的类型
@@ -18,19 +28,19 @@ namespace Abbott.Tips.AspnetCore.Autofacs
 
             Type baseType = typeof(IDependency);
             builder.RegisterAssemblyTypes(assemblies)
-                   .Where(type => baseType.IsAssignableFrom(type) && !type.IsAbstract && type.Name.EndsWith("Service"))
+                   .Where(type => baseType.IsAssignableFrom(type) && !type.IsAbstract && FilterType(type.Name))
                    .AsSelf().AsImplementedInterfaces()
                    .PropertiesAutowired();
 
             Type isBaseType = typeof(ISingletonDependency);
             builder.RegisterAssemblyTypes(assemblies)
-                   .Where(type => isBaseType.IsAssignableFrom(type) && !type.IsAbstract && type.Name.EndsWith("Service"))
+                   .Where(type => isBaseType.IsAssignableFrom(type) && !type.IsAbstract && FilterType(type.Name))
                    .AsSelf().AsImplementedInterfaces()
                    .PropertiesAutowired().SingleInstance();
 
             Type itBaseType = typeof(ITransientDependency);
             builder.RegisterAssemblyTypes(assemblies)
-                   .Where(type => itBaseType.IsAssignableFrom(type) && !type.IsAbstract && type.Name.EndsWith("Service"))
+                   .Where(type => itBaseType.IsAssignableFrom(type) && !type.IsAbstract && FilterType(type.Name))
                    .AsSelf().AsImplementedInterfaces()
                    .PropertiesAutowired();
 

@@ -153,6 +153,7 @@ namespace Abbott.Tips.ApiCore
             //模块化注入
             containerBuilder.RegisterModule<ControllerInjectionAutofacModule>();
             containerBuilder.RegisterModule<ServiceInjectionAutofacModule>();
+            containerBuilder.RegisterModule<DependencyInjectionAutofacModule>();
 
             containerBuilder.Populate(services);
 
