@@ -109,6 +109,14 @@ namespace Abbott.Tips.WebHost
             //    builder => builder.WithOrigins("*.cmono.net")));
             services.AddCors(option => option.AddPolicy("Tips", policy => policy.WithOrigins("http://localhost:8090").AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("SignalrCore",
+                    policy => policy.AllowAnyOrigin()
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod());
+            });
+
             //配置跨域处理
             //services.AddCors(options =>
             //{
@@ -406,10 +414,14 @@ namespace Abbott.Tips.WebHost
 
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe();
-
+            
             app.UseCors("Tips");//顺序必须在 app.UseSignalR ... 这句设置之前才行，  
-
-            app.UseSignalR(routes => routes.MapHub<TestHub>("/test"));
+            app.UseCors("SignalrCore");
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<TestHub>("/test");
+                routes.MapHub<SignalrHubs>("/signalrHubs");
+            });
 
             //启用中间件服务生成Swagger作为JSON终结点
             app.UseSwagger();

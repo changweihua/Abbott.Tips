@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abbott.Tips.Application", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abbott.Tips.Model", "Abbott.Tips.Model\Abbott.Tips.Model.csproj", "{9CCA0CBF-B167-43BD-B0E2-36F76E13F1BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abbott.Tips.WebHost", "Abbott.Tips.WebHost\Abbott.Tips.WebHost.csproj", "{3B5B57AE-5F2B-4475-A5DC-B3C075B048C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abbott.Tips.WebHost", "Abbott.Tips.WebHost\Abbott.Tips.WebHost.csproj", "{3B5B57AE-5F2B-4475-A5DC-B3C075B048C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abbott.Tips.Extensions", "Abbott.Tips.Extensions\Abbott.Tips.Extensions.csproj", "{A3D81964-5176-4A98-83C4-4C0744E03660}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{3B5B57AE-5F2B-4475-A5DC-B3C075B048C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B5B57AE-5F2B-4475-A5DC-B3C075B048C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B5B57AE-5F2B-4475-A5DC-B3C075B048C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3D81964-5176-4A98-83C4-4C0744E03660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3D81964-5176-4A98-83C4-4C0744E03660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3D81964-5176-4A98-83C4-4C0744E03660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3D81964-5176-4A98-83C4-4C0744E03660}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
