@@ -123,10 +123,10 @@ namespace Abbott.Tips.ApiCore
                 //options.ModelBinderProviders.Insert(0, new SplitDateTimeModelBinderProvider());
 
                 // 使用 Jil 替换默认的 JSON 解析
-                options.InputFormatters.Clear();
-                options.InputFormatters.Add(new JilInputFormatter());
-                options.OutputFormatters.Clear();
-                options.OutputFormatters.Add(new JilOutputFormatter());
+                //options.InputFormatters.Clear();
+                //options.InputFormatters.Add(new JilInputFormatter(new Jil.Options()));
+                //options.OutputFormatters.Clear();
+                //options.OutputFormatters.Add(new JilOutputFormatter());
 
             }).AddJsonOptions(options =>
             {

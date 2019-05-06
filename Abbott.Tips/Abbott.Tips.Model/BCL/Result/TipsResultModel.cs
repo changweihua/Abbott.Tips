@@ -1,4 +1,5 @@
 ﻿using Abbott.Tips.Framework.Attributes;
+using Abbott.Tips.Framework.Models;
 using Abbott.Tips.Pager;
 using System;
 using System.Collections.Generic;
@@ -6,34 +7,11 @@ using System.Text;
 
 namespace Abbott.Tips.Model.Result
 {
-    public interface IResultModel
-    {
-    }
-
-    /// <summary>
-    /// 标准API返回结果模型
-    /// </summary>
-    /// <typeparam name="TResult"></typeparam>
-    public class ResultModel
-    {
-        public int Code { get; set; }
-
-        public object Result { get; set; }
-    }
-
-    public enum ResultCode
-    {
-        SUCCESS,
-        FAIL,
-        ERROR,
-        IDLE
-    }
-
     /// <summary>
     /// 标准Json格式数据，包含状态码和属性过滤器
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
-    public class JsonResultModel : ResultModel
+    public class JsonResultModel : ApiResultModel
     {
         public SerializationFilterAttribute SerializationFilter { get; set; }
     }

@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Abbott.Tips.ApiCore;
 using Abbott.Tips.ApiCore.Corss;
 using Abbott.Tips.ApiCore.Events;
+using Abbott.Tips.Application.ApplicationSettings;
+using Abbott.Tips.AspnetCore.Middlewares;
+using Abbott.Tips.Framework.Attributes;
+using Abbott.Tips.Framework.ElementUI;
 using Abbott.Tips.Framework.EventBus;
 using Abbott.Tips.Framework.EventBus.Services;
 using Abbott.Tips.WebHost.Hubs;
@@ -20,6 +25,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using Swashbuckle.AspNetCore.Swagger;
@@ -354,6 +360,9 @@ namespace Abbott.Tips.WebHost
                 app.UseExceptionHandler("/Error");
             }
 
+            //请求错误提示配置
+            app.UseErrorHandling();
+
             #region 404等错误处理
 
             app.UseStatusCodePagesWithReExecute("/error/{0}");
@@ -411,6 +420,7 @@ namespace Abbott.Tips.WebHost
             //        }
             //    )
             // });
+
 
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe();

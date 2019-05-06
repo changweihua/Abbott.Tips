@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Abbott.Tips.Application.Configurations;
 using Abbott.Tips.Application.Configurations.Dtos;
 using Abbott.Tips.Core.Mapper;
+using Abbott.Tips.Framework.Models;
 using Abbott.Tips.Model.Dtos.Query;
 using Abbott.Tips.Model.Entities;
 using Abbott.Tips.Model.Result;
@@ -88,10 +89,11 @@ namespace Abbott.Tips.WebHost.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody]ConfigurationModel model)
+        public async Task<IActionResult> Update([FromBody]ConfigurationEditionModel model)
         {
-            model.UpdatedTime = DateTime.Now;
-            var cfg = await iConfigurationService.Update<ConfigurationListModel>(model);
+            var estModel = await iConfigurationService.Get(predicate: c => c.Id == model.Id);
+            var toModel = ObjectMapper.Map(model, estModel);
+            var cfg = await iConfigurationService.Update<ConfigurationListModel>(toModel);
 
             return Ok(new ObjectResultModel<ConfigurationListModel> { Code = (int)ResultCode.SUCCESS, Entity = cfg });
         }

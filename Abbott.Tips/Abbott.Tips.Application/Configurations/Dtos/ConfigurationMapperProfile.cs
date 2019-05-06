@@ -32,6 +32,20 @@ namespace Abbott.Tips.Application.Configurations.Dtos
                 .ForMember(dest => dest.ConfigName, options => options.MapFrom(src => src.ConfigurationName))
                 .ForMember(dest => dest.ConfigType, options => options.MapFrom(src => src.ConfigurationType))
                 .ForMember(dest => dest.ConfigValue, options => options.MapFrom(src => src.ConfigurationValue));
+
+            CreateMap<ConfigurationEditionModel, ConfigurationModel>()
+                .ForMember(dest => dest.Id, options => options.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Timestamp, options => options.MapFrom(src => src.Timestamp))
+                .ForMember(dest => dest.CreatedBy, options => options.Ignore())
+                .ForMember(dest => dest.CreatedTime, options => options.Ignore())
+                .ForMember(dest => dest.UpdatedBy, options => options.Ignore())
+                .ForMember(dest => dest.UpdatedTime, options => options.Ignore())
+                .ForMember(dest => dest.IsDeleted, options => options.Ignore())
+                .ForMember(dest => dest.ConfigDescription, options => options.MapFrom(src => src.ConfigurationDescription))
+                .ForMember(dest => dest.ConfigName, options => options.MapFrom(src => src.ConfigurationName))
+                .ForMember(dest => dest.ConfigType, options => options.MapFrom(src => src.ConfigurationType))
+                .ForMember(dest => dest.ConfigValue, options => options.MapFrom(src => src.ConfigurationValue));
+
         }
     }
 

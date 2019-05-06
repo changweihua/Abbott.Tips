@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Abbott.Tips.Framework.FCL
@@ -20,5 +21,39 @@ namespace Abbott.Tips.Framework.FCL
             return str ?? "";
         }
 
+        /// <summary>
+        /// 首字母小写写
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string ToLowerCamelCase(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+            string str = input.First().ToString().ToLower() + input.Substring(1);
+            return str;
+        }
+
+        /// <summary>
+        /// 首字母大写
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string ToUpperCamelCase(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+            string str = input.First().ToString().ToUpper() + input.Substring(1);
+            return str;
+        }
+
+
+        public static string ToPascalCase(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+            string str = input.First().ToString().ToUpper() + input.Substring(1);
+            return str;
+        }
     }
 }

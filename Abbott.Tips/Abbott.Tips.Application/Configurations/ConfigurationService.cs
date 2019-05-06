@@ -2,6 +2,7 @@
 using Abbott.Tips.Application.Configurations.Dtos;
 using Abbott.Tips.EntityFrameworkCore.UnitOfWork;
 using Abbott.Tips.EntityFrameworkCore.UnitOfWork.PagedList;
+using Abbott.Tips.Framework.Exceptions;
 using Abbott.Tips.Model.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Abbott.Tips.Application.Configurations
             {
                 if (Repository.Get().Any(c => c.ConfigName == configuration.ConfigName && c.ConfigType == configuration.ConfigType && c.Id != configuration.Id))
                 {
-                    throw new Exception(configuration.ConfigName);
+                    throw new UserFriendlyException(configuration.ConfigName);
                 }
             });
         }
