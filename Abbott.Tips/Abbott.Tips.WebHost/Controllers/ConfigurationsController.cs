@@ -25,8 +25,7 @@ namespace Abbott.Tips.WebHost.Controllers
         /// 获取全部配置项
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        [Route("all")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
             var cfgs = await iConfigurationService.GetConfigurationList("");
@@ -37,16 +36,15 @@ namespace Abbott.Tips.WebHost.Controllers
         /// 分页获取配置项
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        [Route("pager")]
-        public async Task<IActionResult> GetPager(ConfigurationPagerParameterQueryModel query)
+        [HttpGet("pager")]
+        public async Task<IActionResult> GetPager([FromQuery]ConfigurationPagerParameterQueryModel query)
         {
             //var pager = await iConfigurationService.GetPagerAsync();
             //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { SerializationFilter = new AConfigurationAttribute(), Code = 0, Items = cfgs.Items.Select(_ => _.ToConfigurationListModel()).ToList() });
             //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { SerializationFilter = new AConfigurationAttribute(), Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(cfgs.Items) });
             //return Ok(new ListJsonContractResultModel<ConfigurationListModel> { Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(cfgs.Items) });
             //return Ok(new JsonListResultModel<ConfigurationListModel> { Code = 0, Items = ObjectMapper.Map<List<ConfigurationListModel>>(pager.Items), PageIndex = pager.PageIndex, PageSize = pager.PageSize, TotalCount = pager.TotalCount, Result = pager });
-            var pager = await iConfigurationService.GetPagerAsync(e => ObjectMapper.Map<ConfigurationListModel>(e), pageIndex: query.PageIndex, pageSize: query.PageSize);
+            var pager = await iConfigurationService.GetPagerAsync(e => ObjectMapper.Map<ConfigurationListModel>(e), pageIndex: query.PageIndex, pageSize: query.PageSize, orderBy: m => m.OrderByDescending(im => im.UpdatedTime ?? im.CreatedTime));
             return Ok(new PagerResultModel<ConfigurationListModel> { Code = 0, Pager = pager });
         }
 
@@ -65,8 +63,8 @@ namespace Abbott.Tips.WebHost.Controllers
         /// 获取单个
         /// </summary>
         /// <returns></returns>
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Get([FromQuery]int id)
         {
             var cfg = await iConfigurationService.Get<ConfigurationListModel>(predicate: c => c.Id == id);
             return Ok(new ObjectResultModel<ConfigurationListModel> { Code = (int)ResultCode.SUCCESS, Entity = cfg });

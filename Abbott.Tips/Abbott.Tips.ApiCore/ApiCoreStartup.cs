@@ -153,8 +153,8 @@ namespace Abbott.Tips.ApiCore
                 {
                     return new BadRequestObjectResult(actionContext.ModelState.Errors());
                 };
-                //options.SuppressConsumesConstraintForFormFileParameters = true;
-                //options.SuppressInferBindingSourcesForParameters = true;
+                options.SuppressConsumesConstraintForFormFileParameters = true;
+                options.SuppressInferBindingSourcesForParameters = true;
                 //options.SuppressModelStateInvalidFilter = true;
                 //options.SuppressMapClientErrors = true;
                 //options.ClientErrorMapping[404].Link =

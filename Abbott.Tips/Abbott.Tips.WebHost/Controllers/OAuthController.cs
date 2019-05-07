@@ -41,6 +41,121 @@ namespace Abbott.Tips.WebHost.Controllers
         /// 返回新的 token 并设置 Cookie
         /// </summary>
         /// <param name="user"></param>
+        [HttpPost("Auth")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public async Task<IActionResult> Auth([FromBody]JwtAuthenticationParameters parameters)
+        {
+            if (parameters != null)
+            {
+                if (parameters.grant_type == "password")
+                {
+                    var claims = new Claim[]
+                    {
+                        new Claim(ClaimTypes.WindowsDeviceClaim, parameters.client_id, ClaimValueTypes.String)
+                    };
+                    await HttpContext.SignInAsync(parameters.client_id, claims, DateTime.Now.AddDays(1));
+                    await this.EventBus.PublishAsync(new UserLoginedEvent(parameters.username));
+                    var elForms = LoadElForm();
+                    var jwtAuthenticationResult = DoPassword(parameters);
+                    return Ok(new {
+                        code = 0,
+                        access_token = jwtAuthenticationResult.Token,
+                        refresh_token = jwtAuthenticationResult.RefreshToken,
+                        expires_in = (int)TimeSpan.FromMinutes(2).TotalSeconds,
+                        ElForms = elForms
+                    });
+                }
+                else if (parameters.grant_type == "refresh_token")
+                {
+                    var jwtAuthenticationResult = DoRefreshToken(parameters);
+                    return Ok(new
+                    {
+                        code = 0,
+                        access_token = jwtAuthenticationResult.Token,
+                        refresh_token = jwtAuthenticationResult.RefreshToken,
+                        expires_in = (int)TimeSpan.FromMinutes(2).TotalSeconds
+                    });
+                }
+            }
+            
+            return BadRequest();
+        }
+
+        //scenario 1 ： get the access-token by username and password  
+        private JwtAuthenticationResult DoPassword(JwtAuthenticationParameters parameters)
+        {
+            //validate the client_id/client_secret/username/passwo  
+            //var isValidated = UserInfo.GetAllUsers().Any(x => x.ClientId == parameters.client_id
+            //                        && x.ClientSecret == parameters.client_secret
+            //                        && x.UserName == parameters.username
+            //                        && x.Password == parameters.password);
+
+            var estUser = iUserService.Login(parameters.username, parameters.password);
+
+            if (estUser != null)
+            {
+                var refresh_token = Guid.NewGuid().ToString().Replace("-", "");
+                var token = GetJwtToken(parameters.client_id, refresh_token);
+
+                //缓存中(数据库中)保存RefreshToken
+
+                var jwtAuthenticationResult = new JwtAuthenticationResult
+                {
+                    ClientId = parameters.client_id,
+                    RefreshToken = refresh_token,
+                    Token = token,
+                    Id = Guid.NewGuid().ToString(),
+                    IsStop = 0
+                };
+
+                return jwtAuthenticationResult;
+            }
+            return null;
+        }
+
+        //scenario 2 ： get the access_token by refresh_token  
+        private JwtAuthenticationResult DoRefreshToken(JwtAuthenticationParameters parameters)
+        {
+            //缓存中(数据库中)查找RefreshToken
+            //查看RefreshToken是否过期，使用过后，标记过期，重新发放
+            //var token = _repo.GetToken(parameters.refresh_token, parameters.client_id);
+
+            var refresh_token = Guid.NewGuid().ToString().Replace("-", "");
+            var token = GetJwtToken(parameters.client_id, refresh_token);
+            var jwtAuthenticationResult = new JwtAuthenticationResult
+            {
+                ClientId = parameters.client_id,
+                RefreshToken = refresh_token,
+                Token = token,
+                Id = Guid.NewGuid().ToString(),
+                IsStop = 0
+            };
+
+            return jwtAuthenticationResult;
+        }
+
+        //get the jwt token   
+        private string GetJwtToken(string client_id, string refresh_token)
+        {
+            var now = DateTime.UtcNow;
+
+            var claims = new Claim[]
+            {
+                new Claim(ClaimTypes.WindowsDeviceClaim, client_id, ClaimValueTypes.String)
+                //new Claim(JwtRegisteredClaimNames.Sub, client_id),
+                //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                //new Claim(JwtRegisteredClaimNames.Iat, now.ToUniversalTime().ToString(), ClaimValueTypes.Integer64)
+            };
+
+            return JwtTokenGenerator.GenerateToken(client_id, claims, DateTime.Now.AddDays(1));
+        }
+
+
+        /// <summary>
+        /// 返回新的 token 并设置 Cookie
+        /// </summary>
+        /// <param name="user"></param>
         [HttpPost]
         [Consumes("application/json")]
         [Produces("application/json")]
