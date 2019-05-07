@@ -10,9 +10,12 @@ namespace Abbott.Tips.Application.Configurations.Dtos
     [ElForm(FormName = "ConfigurationCreation")]
     public class ConfigurationCreationModel
     {
+        [ElFormItemRule(Required = true, Message = "动态Rule校验", Trigger = "blur")]
+        [ElFormItemRule(Max = 20, Min = 5, Message = "长度5-20", Trigger = "blur")]
         [Required(ErrorMessage = "必须输入配置项名称")]
         public string ConfigurationName { get; set; }
 
+        [Required]
         public int ConfigurationType { get; set; }
 
         public string ConfigurationValue { get; set; }

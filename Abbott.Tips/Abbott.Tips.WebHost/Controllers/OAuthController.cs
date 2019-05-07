@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -135,13 +136,14 @@ namespace Abbott.Tips.WebHost.Controllers
                 var formItems = type.GetProperties().Where(prop => prop.GetCustomAttribute<ElFormItemIgnoreAttribute>() == null).Select(prop =>
                 {
                     var formItem = new ElFormItemModel();
+
                     var attr = prop.GetCustomAttribute<ElFormItemAttribute>();
                     if (attr != null)
                     {
                         formItem = new ElFormItemModel
                         {
                             Order = attr.Order,
-                            Label =( attr.Label ?? prop.Name).ToLowerCamelCase(),
+                            Label = (attr.Label ?? prop.Name).ToLowerCamelCase(),
                             Prop = (attr.Label ?? prop.Name).ToLowerCamelCase(),
                             Type = attr.Type.ToString().ToLower(),
                             Hidden = attr.Hidden
@@ -158,13 +160,67 @@ namespace Abbott.Tips.WebHost.Controllers
                             Hidden = false
                         };
                     }
+
+
                     return formItem;
                 }).ToList();
+
+                dynamic formItemRules = new ExpandoObject();
+                IDictionary<string, object> dict = new Dictionary<string, object>();
+
+                type.GetProperties().Where(prop => prop.GetCustomAttribute<ElFormItemIgnoreAttribute>() == null || prop.GetCustomAttribute<ElFormItemRuleAttribute>() == null).ToList().ForEach(prop =>
+                {
+                    var attrs = prop.GetCustomAttributes<ElFormItemRuleAttribute>().ToList();
+                    if (attrs != null && attrs.Count > 0)
+                    {
+                        string key = prop.Name.ToLowerCamelCase();
+                        var value = attrs.Select(attr =>
+                        {
+                            dynamic obj = new ExpandoObject();
+                            if (attr.Max > 0)
+                            {
+                                obj.max = attr.Max;
+                            }
+                            if (attr.Min > 0)
+                            {
+                                obj.min = attr.Min;
+                            }
+                            if (!string.IsNullOrEmpty(attr.Message))
+                            {
+                                obj.message = attr.Message;
+                            }
+                            if (attr.Required)
+                            {
+                                obj.required = attr.Required;
+                            }
+                            if (!string.IsNullOrEmpty(attr.Trigger))
+                            {
+                                obj.trigger = attr.Trigger;
+                            }
+                            if (!string.IsNullOrEmpty(attr.Type))
+                            {
+                                obj.type = attr.Type;
+                            }
+                            if (attr.Triggers != null && attr.Triggers.Count > 0)
+                            {
+                                obj.triggers = attr.Triggers;
+                            }
+                            return obj;
+                        });
+                        dict.Add(new KeyValuePair<string, object>(key, value));
+                    }
+                });
+
+                foreach (var kv in dict)
+                {
+                    ((IDictionary<string, object>)formItemRules).Add(kv);
+                }
 
                 return new ElFormModel
                 {
                     FormName = type.GetCustomAttribute<ElFormAttribute>()?.FormName ?? type.Name,
-                    FormItems = formItems
+                    FormItems = formItems,
+                    FormRules = formItemRules
                 };
             }).ToList();
 

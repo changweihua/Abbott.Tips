@@ -19,7 +19,7 @@ namespace Abbott.Tips.Framework.Attributes
     [AttributeUsage(AttributeTargets.Property)]
     public class ElFormItemIgnoreAttribute : Attribute
     {
-        
+
     }
 
     public enum ElFormItemType

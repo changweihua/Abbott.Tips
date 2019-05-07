@@ -104,13 +104,22 @@ namespace Abbott.Tips.ApiCore
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
-                options.SuppressModelStateInvalidFilter = true;
-                options.SuppressConsumesConstraintForFormFileParameters = true;
+                //禁用自带ModelValidate
+                //options.SuppressModelStateInvalidFilter = true;
+                //options.SuppressConsumesConstraintForFormFileParameters = true;
 
-                options.InvalidModelStateResponseFactory = actionContext =>
-                {
-                    return new BadRequestObjectResult(actionContext.ModelState.Errors());
-                };
+           //     options.InvalidModelStateResponseFactory = actionContext =>
+           //     {
+           ////         var errors = actionContext.ModelState
+           ////.Where(e => e.Value.Errors.Count > 0)
+           ////.Select(e => new Error
+           ////{
+           ////    Name = e.Key,
+           ////    Message = e.Value.Errors.First().ErrorMessage
+           ////}).ToArray();
+
+           //         return new BadRequestObjectResult(actionContext.ModelState.Errors());
+           //     };
             });
 
             services.AddMvc(options =>
@@ -140,12 +149,16 @@ namespace Abbott.Tips.ApiCore
             //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .ConfigureApiBehaviorOptions(options =>
             {
-                options.SuppressConsumesConstraintForFormFileParameters = true;
-                options.SuppressInferBindingSourcesForParameters = true;
-                options.SuppressModelStateInvalidFilter = true;
-                options.SuppressMapClientErrors = true;
-                options.ClientErrorMapping[404].Link =
-                    "https://httpstatuses.com/404";
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    return new BadRequestObjectResult(actionContext.ModelState.Errors());
+                };
+                //options.SuppressConsumesConstraintForFormFileParameters = true;
+                //options.SuppressInferBindingSourcesForParameters = true;
+                //options.SuppressModelStateInvalidFilter = true;
+                //options.SuppressMapClientErrors = true;
+                //options.ClientErrorMapping[404].Link =
+                //    "https://httpstatuses.com/404";
             });
 
             //Autofac 注入

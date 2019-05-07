@@ -10,6 +10,10 @@ namespace Abbott.Tips.Framework.ElementUI
         public string FormName { get; set; }
 
         public List<ElFormItemModel> FormItems { get; set; }
+
+        //public List<ElFormItemRuleModel> FormRules { get; set; }
+
+        public dynamic FormRules { get; set; }
     }
 
     public class ElFormItemModel
@@ -22,4 +26,16 @@ namespace Abbott.Tips.Framework.ElementUI
         public object Options { get; set; }
         public bool Hidden { get; set; }
     }
+
+    public class ElFormItemRuleModel
+    {
+        public string Type { get; set; }
+        public bool Required { get; set; }
+        public int Max { get; set; }
+        public int Min { get; set; }
+        public string Trigger { get; set; }
+        public List<string> Triggers { get; set; }
+        public string Message { get; set; }
+    }
+
 }

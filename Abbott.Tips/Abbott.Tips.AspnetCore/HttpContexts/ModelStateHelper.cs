@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Abbott.Tips.Framework.FCL;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Abbott.Tips.AspnetCore.HttpContexts
         {
             if (!modelState.IsValid)
             {
-                return modelState.ToDictionary(kvp => kvp.Key,
+                return modelState.ToDictionary(kvp => kvp.Key.ToLowerCamelCase(),
                     kvp => kvp.Value.Errors
                                     .Select(e => e.ErrorMessage).ToArray())
                                     .Where(m => m.Value.Count() > 0);

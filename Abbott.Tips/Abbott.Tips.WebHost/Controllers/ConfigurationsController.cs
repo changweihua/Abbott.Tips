@@ -79,6 +79,8 @@ namespace Abbott.Tips.WebHost.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]ConfigurationCreationModel model)
         {
+            var isvalid = ModelState.IsValid;
+
             var cfg = await iConfigurationService.Add<ConfigurationListModel>(ObjectMapper.Map<ConfigurationModel>(model));
 
             return Ok(new ObjectResultModel<ConfigurationListModel> { Code = (int)ResultCode.SUCCESS, Entity = cfg });
