@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,10 @@ namespace Abbott.Tips.ApiCore.Jwts
 
             var authBuilder = services.AddAuthentication(authOptions =>
             {
-                authOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                authOptions.DefaultAuthenticateScheme = "TIPS-CookieAuthenticationScheme";
+                authOptions.DefaultChallengeScheme = "TIPS-CookieAuthenticationScheme";
+                authOptions.DefaultSignInScheme = "TIPS-CookieAuthenticationScheme";
+                authOptions.DefaultScheme = "TIPS-CookieAuthenticationScheme";// CookieAuthenticationDefaults.AuthenticationScheme;
             })
                 .AddJwtBearer(jwtOptions =>
                 {
@@ -33,7 +37,7 @@ namespace Abbott.Tips.ApiCore.Jwts
 
             if (option.EnableCookie)
             {
-                authBuilder.AddCookie(options =>
+                authBuilder.AddCookie("TIPS-CookieAuthenticationScheme", options =>
                 {
                     options.TicketDataFormat =
                         new TipsJwtAuthTicketFormat(jwtParams);
@@ -43,6 +47,23 @@ namespace Abbott.Tips.ApiCore.Jwts
                     options.Cookie.HttpOnly = true;
                     options.Cookie.Name = "tk";
                     option.CookieOptions?.Invoke(options);
+
+                    options.Events = new CookieAuthenticationEvents
+                    {
+                        OnRedirectToLogin = ctx =>
+                        {
+                            if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == (int)HttpStatusCode.OK)
+                            {
+                                ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            }
+                            else
+                            {
+                                ctx.Response.Redirect(ctx.RedirectUri);
+                            }
+                            return Task.FromResult(0);
+                        }
+                    };
+
                 });
             }
 
@@ -54,7 +75,7 @@ namespace Abbott.Tips.ApiCore.Jwts
         {
             var jwt = context.RequestServices.GetService<JwtTokenGenerator>();
             var (principal, authProps) = jwt.GenerateAuthTicket(userName, claims, expiratoin);
-            await context.SignInAsync(principal, authProps);
+            await context.SignInAsync("TIPS-CookieAuthenticationScheme", principal, authProps);
         }
     }
 }

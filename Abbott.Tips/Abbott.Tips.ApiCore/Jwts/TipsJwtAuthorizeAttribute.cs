@@ -13,6 +13,9 @@ namespace Abbott.Tips.ApiCore.Jwts
         {
             AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme + "," +
                                     JwtBearerDefaults.AuthenticationScheme;
+
+            //AuthenticationSchemes = "TIPS-CookieAuthenticationScheme" + "," +
+            //                        JwtBearerDefaults.AuthenticationScheme;
         }
     }
 }

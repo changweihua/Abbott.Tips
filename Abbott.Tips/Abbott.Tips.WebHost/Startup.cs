@@ -58,19 +58,19 @@ namespace Abbott.Tips.WebHost
             });
 
             // 增加Cookie中间件配置
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = "TIPS-CookieAuthenticationScheme";
-                options.DefaultChallengeScheme = "TIPS-CookieAuthenticationScheme";
-                options.DefaultSignInScheme = "TIPS-CookieAuthenticationScheme";
-            })
-            .AddCookie("TIPS-CookieAuthenticationScheme", options =>
-            {
-                options.AccessDeniedPath = @"/AccessDenied";
-                options.LoginPath = "/Account/Login";
-                options.SlidingExpiration = true;
-                options.Cookie.HttpOnly = true;
-            });
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = "TIPS-CookieAuthenticationScheme";
+            //    options.DefaultChallengeScheme = "TIPS-CookieAuthenticationScheme";
+            //    options.DefaultSignInScheme = "TIPS-CookieAuthenticationScheme";
+            //})
+            //.AddCookie("TIPS-CookieAuthenticationScheme", options =>
+            //{
+            //    options.AccessDeniedPath = @"/AccessDenied";
+            //    options.LoginPath = "/Account/Login";
+            //    options.SlidingExpiration = true;
+            //    options.Cookie.HttpOnly = true;
+            //});
 
             #endregion
 
@@ -297,10 +297,10 @@ namespace Abbott.Tips.WebHost
 
             #region Cookie
 
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
 
             // 验证中间件
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             #endregion
 

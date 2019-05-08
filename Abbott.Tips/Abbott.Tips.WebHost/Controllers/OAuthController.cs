@@ -54,7 +54,7 @@ namespace Abbott.Tips.WebHost.Controllers
                     {
                         new Claim(ClaimTypes.WindowsDeviceClaim, parameters.client_id, ClaimValueTypes.String)
                     };
-                    await HttpContext.SignInAsync(parameters.client_id, claims, DateTime.Now.AddDays(1));
+                    await HttpContext.SignInAsync(parameters.client_id, claims, DateTime.Now.AddMinutes(1));
                     await this.EventBus.PublishAsync(new UserLoginedEvent(parameters.username));
                     var elForms = LoadElForm();
                     var jwtAuthenticationResult = DoPassword(parameters);
@@ -62,7 +62,7 @@ namespace Abbott.Tips.WebHost.Controllers
                         code = 0,
                         access_token = jwtAuthenticationResult.Token,
                         refresh_token = jwtAuthenticationResult.RefreshToken,
-                        expires_in = (int)TimeSpan.FromMinutes(2).TotalSeconds,
+                        expires_in = (int)TimeSpan.FromMinutes(1).TotalSeconds,
                         ElForms = elForms
                     });
                 }
@@ -74,7 +74,7 @@ namespace Abbott.Tips.WebHost.Controllers
                         code = 0,
                         access_token = jwtAuthenticationResult.Token,
                         refresh_token = jwtAuthenticationResult.RefreshToken,
-                        expires_in = (int)TimeSpan.FromMinutes(2).TotalSeconds
+                        expires_in = (int)TimeSpan.FromMinutes(1).TotalSeconds
                     });
                 }
             }
@@ -148,7 +148,7 @@ namespace Abbott.Tips.WebHost.Controllers
                 //new Claim(JwtRegisteredClaimNames.Iat, now.ToUniversalTime().ToString(), ClaimValueTypes.Integer64)
             };
 
-            return JwtTokenGenerator.GenerateToken(client_id, claims, DateTime.Now.AddDays(1));
+            return JwtTokenGenerator.GenerateToken(client_id, claims, DateTime.Now.AddMinutes(1));
         }
 
 
